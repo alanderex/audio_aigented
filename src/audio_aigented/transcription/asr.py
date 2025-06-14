@@ -6,6 +6,7 @@ with GPU acceleration and efficient batch processing.
 """
 
 import logging
+import os
 import time
 from pathlib import Path
 from typing import List, Optional, Tuple, Dict, Any
@@ -13,6 +14,9 @@ from typing import List, Optional, Tuple, Dict, Any
 import numpy as np
 import torch
 from tqdm import tqdm
+
+# Set PyTorch CUDA memory allocation configuration for better memory management
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 
 # NeMo imports - these will be available after installation
 try:
@@ -117,13 +121,15 @@ class ASRTranscriber:
             load_time = time.time() - start_time
             logger.info(f"Model loaded successfully in {load_time:.2f} seconds")
             
-            # Cache model info
+            # Cache model info - DIAGNOSTIC: Convert all values to strings for Pydantic compatibility
             self._model_info = {
                 "name": self.model_name,
                 "device": self.device,
-                "load_time": load_time,
-                "sample_rate": getattr(self.model, 'sample_rate', 16000)
+                "load_time": f"{load_time:.2f}",  # Convert float to string
+                "sample_rate": str(getattr(self.model, 'sample_rate', 16000))  # Convert int to string
             }
+            
+            logger.info(f"DIAGNOSTIC - Model info types: {[(k, type(v)) for k, v in self._model_info.items()]}")
             
         except Exception as e:
             logger.error(f"Failed to load model {self.model_name}: {e}")
@@ -144,11 +150,22 @@ class ASRTranscriber:
             self.load_model()
             
         logger.info(f"Transcribing audio file: {audio_file.path.name}")
+        
+        # DIAGNOSTIC: Log audio data size and memory usage
+        audio_size_mb = audio_data.nbytes / (1024 * 1024)
+        duration = len(audio_data) / self.config.audio["sample_rate"]
+        logger.info(f"DIAGNOSTIC - Audio size: {audio_size_mb:.2f} MB, Duration: {duration:.2f}s")
+        
+        # Clear CUDA cache before processing
+        if self.device == "cuda":
+            torch.cuda.empty_cache()
+            logger.info("DIAGNOSTIC - Cleared CUDA cache before processing")
+        
         start_time = time.time()
         
         try:
-            # Get transcription segments
-            segments = self._transcribe_segments(audio_data)
+            # Get transcription segments with memory-efficient processing
+            segments = self._transcribe_segments_chunked(audio_data)
             
             # Create full text
             full_text = ' '.join(segment.text for segment in segments)
@@ -178,9 +195,9 @@ class ASRTranscriber:
             logger.error(f"Transcription failed for {audio_file.path}: {e}")
             raise
             
-    def _transcribe_segments(self, audio_data: np.ndarray) -> List[AudioSegment]:
+    def _transcribe_segments_chunked(self, audio_data: np.ndarray) -> List[AudioSegment]:
         """
-        Transcribe audio data and return segments with timing information.
+        Transcribe audio data using memory-efficient chunking.
         
         Args:
             audio_data: Audio data array
@@ -188,35 +205,120 @@ class ASRTranscriber:
         Returns:
             List of AudioSegment instances
         """
-        # Convert numpy array to list for NeMo compatibility
-        audio_list = audio_data.tolist()
+        # Use the audio loader's segmentation for memory efficiency
+        from ..audio.loader import AudioLoader
+        audio_loader = AudioLoader(self.config)
+        audio_chunks = audio_loader.segment_audio(audio_data, self.config.audio["sample_rate"])
         
-        try:
-            # Get transcription from NeMo model
-            # Note: This is a simplified approach - for production, you'd want
-            # to use the model's batch processing capabilities
-            transcription = self.model.transcribe([audio_list])
-            
-            if isinstance(transcription, list) and len(transcription) > 0:
-                text = transcription[0]
-            else:
-                text = str(transcription) if transcription else ""
+        logger.info(f"Processing {len(audio_chunks)} audio chunks for memory efficiency")
+        
+        segments = []
+        current_time = 0.0
+        
+        for i, chunk in enumerate(audio_chunks):
+            try:
+                # Clear GPU cache between chunks
+                if self.device == "cuda":
+                    torch.cuda.empty_cache()
                 
-            # For now, create a single segment for the entire audio
-            # In a more advanced implementation, you'd use alignment models
-            # to get word-level timestamps
-            segment = AudioSegment(
-                text=text.strip(),
-                start_time=0.0,
-                end_time=len(audio_data) / self.config.audio["sample_rate"],
-                confidence=self._estimate_confidence(text) if self.enable_confidence else None
-            )
+                # Process single chunk
+                chunk_segments = self._transcribe_single_chunk(chunk, current_time)
+                segments.extend(chunk_segments)
+                
+                # Update time offset for next chunk
+                chunk_duration = len(chunk) / self.config.audio["sample_rate"]
+                current_time += chunk_duration
+                
+                logger.debug(f"Processed chunk {i+1}/{len(audio_chunks)}")
+                
+            except Exception as e:
+                logger.error(f"Failed to process chunk {i+1}: {e}")
+                # Continue with next chunk rather than failing completely
+                continue
+                
+        return segments
+    
+    def _transcribe_single_chunk(self, audio_chunk: np.ndarray, start_time_offset: float) -> List[AudioSegment]:
+        """
+        Transcribe a single audio chunk.
+        
+        Args:
+            audio_chunk: Single audio chunk array
+            start_time_offset: Time offset for this chunk
             
-            return [segment] if segment.text else []
+        Returns:
+            List of AudioSegment instances for this chunk
+        """
+        try:
+            # DIAGNOSTIC: Log chunk details
+            chunk_size_mb = audio_chunk.nbytes / (1024 * 1024)
+            logger.debug(f"DIAGNOSTIC - Processing chunk: {chunk_size_mb:.2f} MB")
+            
+            # Get transcription from NeMo model
+            transcription = self.model.transcribe([audio_chunk])
+            
+            # DIAGNOSTIC: Log transcription result type and content
+            logger.debug(f"DIAGNOSTIC - Transcription result type: {type(transcription)}")
+            logger.debug(f"DIAGNOSTIC - Transcription result: {transcription}")
+            
+            # Handle different NeMo result formats
+            text = self._extract_text_from_result(transcription)
+                
+            # Create segment with proper timing
+            if text and text.strip():
+                chunk_duration = len(audio_chunk) / self.config.audio["sample_rate"]
+                segment = AudioSegment(
+                    text=text.strip(),
+                    start_time=start_time_offset,
+                    end_time=start_time_offset + chunk_duration,
+                    confidence=self._estimate_confidence(text) if self.enable_confidence else None
+                )
+                return [segment]
+            else:
+                return []
             
         except Exception as e:
-            logger.error(f"Segment transcription failed: {e}")
+            logger.error(f"Chunk transcription failed: {e}")
             return []
+            
+    def _extract_text_from_result(self, transcription_result) -> str:
+        """
+        Extract text from NeMo transcription result, handling different formats.
+        
+        Args:
+            transcription_result: Result from NeMo model.transcribe()
+            
+        Returns:
+            Extracted text string
+        """
+        try:
+            # Handle list of results
+            if isinstance(transcription_result, list):
+                if len(transcription_result) == 0:
+                    return ""
+                result = transcription_result[0]
+            else:
+                result = transcription_result
+                
+            # Handle NeMo Hypothesis objects
+            if hasattr(result, 'text'):
+                return result.text
+            elif hasattr(result, 'hyp'):
+                # Some NeMo models return objects with 'hyp' attribute
+                hyp = result.hyp
+                if hasattr(hyp, 'text'):
+                    return hyp.text
+                else:
+                    return str(hyp)
+            elif isinstance(result, str):
+                return result
+            else:
+                # Fallback to string conversion
+                return str(result)
+                
+        except Exception as e:
+            logger.warning(f"Failed to extract text from transcription result: {e}")
+            return ""
             
     def _estimate_confidence(self, text: str) -> float:
         """

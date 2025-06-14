@@ -36,7 +36,8 @@ class AudioLoader:
         """
         self.config = config
         self.target_sample_rate = config.audio["sample_rate"]
-        self.max_duration = config.audio.get("max_duration", 30.0)
+        # Reduce max duration to 10 seconds for better GPU memory management
+        self.max_duration = config.audio.get("max_duration", 10.0)
         
         logger.info(f"AudioLoader initialized with sample rate: {self.target_sample_rate}")
         

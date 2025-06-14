@@ -35,6 +35,7 @@ dev = [
     "pytest-cov>=4.0.0",
     "ruff>=0.1.0",
     "mypy>=1.0.0",
+    "nemo_toolkit[speaker_tasks]>=1.20.0"
 ]
 
 [project.scripts]

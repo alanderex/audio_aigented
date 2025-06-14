@@ -85,17 +85,34 @@ class OutputFormatter:
         """
         lines = []
         
+        # DIAGNOSTIC: Log result object state
+        logger.info(f"DIAGNOSTIC - Formatting result for: {result.audio_file.path.name}")
+        logger.info(f"DIAGNOSTIC - Audio file duration: {result.audio_file.duration} (type: {type(result.audio_file.duration)})")
+        logger.info(f"DIAGNOSTIC - Processing time: {result.processing_time} (type: {type(result.processing_time)})")
+        logger.info(f"DIAGNOSTIC - Full text length: {len(result.full_text) if result.full_text else 'None'}")
+        logger.info(f"DIAGNOSTIC - Segments count: {len(result.segments)}")
+        
         # Header
         lines.append("=" * 60)
         lines.append(f"AUDIO TRANSCRIPTION REPORT")
         lines.append("=" * 60)
         lines.append(f"File: {result.audio_file.path.name}")
-        lines.append(f"Duration: {result.audio_file.duration:.2f} seconds")
+        
+        # Safe formatting with None checks
+        duration = result.audio_file.duration
+        if duration is not None:
+            lines.append(f"Duration: {duration:.2f} seconds")
+        else:
+            lines.append("Duration: Unknown")
+            
         lines.append(f"Processed: {result.timestamp.strftime('%Y-%m-%d %H:%M:%S')}")
         
         if result.processing_time:
             speed_ratio = result.metadata.get('processing_speed_ratio', 0)
-            lines.append(f"Processing Time: {result.processing_time:.2f}s (Speed: {speed_ratio:.2f}x)")
+            if speed_ratio is not None:
+                lines.append(f"Processing Time: {result.processing_time:.2f}s (Speed: {speed_ratio:.2f}x)")
+            else:
+                lines.append(f"Processing Time: {result.processing_time:.2f}s")
             
         lines.append("-" * 60)
         
@@ -129,6 +146,57 @@ class OutputFormatter:
             lines.append(f"Total Segments: {len(result.segments)}")
             
         lines.append("=" * 60)
+        
+        return "\n".join(lines)
+        
+    def format_as_attributed_text(self, result: TranscriptionResult) -> str:
+        """
+        Format transcription result as attributed text (theater play style).
+        
+        Args:
+            result: TranscriptionResult to format
+            
+        Returns:
+            Formatted attributed text string with speaker labels
+        """
+        lines = []
+        
+        # Only proceed if we have segments with speaker information
+        if not result.segments:
+            # Fallback to full text without attribution if no segments
+            lines.append("UNKNOWN_SPEAKER: " + result.full_text)
+            return "\n".join(lines)
+        
+        # Group consecutive segments by speaker to avoid repetitive labels
+        current_speaker = None
+        current_text_parts = []
+        
+        for segment in result.segments:
+            speaker_id = segment.speaker_id or "UNKNOWN_SPEAKER"
+            
+            if speaker_id != current_speaker:
+                # Flush previous speaker's text if any
+                if current_speaker is not None and current_text_parts:
+                    combined_text = " ".join(current_text_parts).strip()
+                    if combined_text:  # Only add non-empty text
+                        lines.append(f"{current_speaker}: {combined_text}")
+                
+                # Start new speaker
+                current_speaker = speaker_id
+                current_text_parts = [segment.text.strip()]
+            else:
+                # Continue with same speaker
+                current_text_parts.append(segment.text.strip())
+        
+        # Don't forget the last speaker's text
+        if current_speaker is not None and current_text_parts:
+            combined_text = " ".join(current_text_parts).strip()
+            if combined_text:
+                lines.append(f"{current_speaker}: {combined_text}")
+        
+        # If no valid segments were processed, use full text
+        if not lines and result.full_text.strip():
+            lines.append("UNKNOWN_SPEAKER: " + result.full_text.strip())
         
         return "\n".join(lines)
         

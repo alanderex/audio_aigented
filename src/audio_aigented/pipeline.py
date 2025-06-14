@@ -51,6 +51,20 @@ class TranscriptionPipeline:
         self.asr_transcriber = ASRTranscriber(self.config)
         self.file_writer = FileWriter(self.config)
         
+        # Initialize diarizer if enabled
+        self.diarizer = None
+        if self.config.processing.get("enable_diarization", True):
+            try:
+                from .diarization.diarizer import NeMoDiarizer
+                self.diarizer = NeMoDiarizer()
+                logger.info("Speaker diarization enabled")
+            except Exception as e:
+                logger.warning(f"Failed to initialize diarizer: {e}")
+                logger.info("Continuing without speaker diarization")
+                self.config.processing["enable_diarization"] = False
+        else:
+            logger.info("Speaker diarization disabled")
+        
         # Pipeline state
         self.status = PipelineStatus()
         
@@ -177,8 +191,35 @@ class TranscriptionPipeline:
             
             # Stage 3: Transcribe audio
             result = self.asr_transcriber.transcribe_audio_file(audio_file, audio_data)
+
+            # Stage 4: Perform diarization (if enabled)
+            if self.config.processing.get("enable_diarization", True) and self.diarizer is not None:
+                try:
+                    speaker_segments = self.diarizer.diarize(audio_file)
+                    
+                    if speaker_segments:
+                        # Assign speaker IDs to transcription segments
+                        self._assign_speakers_to_segments(result.segments, speaker_segments)
+                        
+                        # Add speaker information to metadata
+                        result.metadata["speaker_segments"] = [
+                            {"start": start, "end": end, "speaker": speaker}
+                            for start, end, speaker in speaker_segments
+                        ]
+                        result.metadata["num_speakers"] = len(set(speaker for _, _, speaker in speaker_segments))
+                        
+                        logger.info(f"Diarization completed for {file_path.name}: "
+                                  f"identified {result.metadata['num_speakers']} speakers")
+                    else:
+                        logger.warning(f"No speaker segments detected for {file_path.name}")
+                        
+                except Exception as e:
+                    logger.warning(f"Diarization failed for {file_path.name}: {e}")
+                    logger.info("Continuing without speaker identification")
+            else:
+                logger.debug("Diarization disabled - skipping speaker identification")
             
-            # Stage 4: Write output
+            # Stage 5: Write output
             created_files = self.file_writer.write_transcription_result(result)
             
             # Add file paths to metadata
@@ -316,6 +357,42 @@ class TranscriptionPipeline:
         logger.info(f"Total processing time: {total_processing_time:.2f}s")
         logger.info(f"Average speed ratio: {avg_speed_ratio:.2f}x")
         logger.info("=" * 50)
+        
+    def _assign_speakers_to_segments(self, transcription_segments, speaker_segments):
+        """
+        Assign speaker IDs to transcription segments based on temporal overlap.
+        
+        Args:
+            transcription_segments: List of AudioSegment instances from transcription
+            speaker_segments: List of (start, end, speaker_id) tuples from diarization
+        """
+        logger.debug(f"Assigning speakers to {len(transcription_segments)} transcription segments "
+                    f"using {len(speaker_segments)} speaker segments")
+        
+        for segment in transcription_segments:
+            # Find the speaker segment with the most overlap
+            best_speaker = None
+            max_overlap = 0.0
+            
+            for speaker_start, speaker_end, speaker_id in speaker_segments:
+                # Calculate overlap between transcription segment and speaker segment
+                overlap_start = max(segment.start_time, speaker_start)
+                overlap_end = min(segment.end_time, speaker_end)
+                overlap_duration = max(0, overlap_end - overlap_start)
+                
+                if overlap_duration > max_overlap:
+                    max_overlap = overlap_duration
+                    best_speaker = speaker_id
+            
+            # Assign speaker if we found a significant overlap
+            if best_speaker and max_overlap > 0:
+                segment.speaker_id = best_speaker
+                logger.debug(f"Assigned speaker {best_speaker} to segment "
+                           f"[{segment.start_time:.2f}s - {segment.end_time:.2f}s] "
+                           f"with {max_overlap:.2f}s overlap")
+            else:
+                logger.debug(f"No speaker assigned to segment "
+                           f"[{segment.start_time:.2f}s - {segment.end_time:.2f}s]")
         
     @property
     def pipeline_status(self) -> PipelineStatus:

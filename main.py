@@ -58,6 +58,11 @@ from src.audio_aigented.config.manager import ConfigManager
     is_flag=True,
     help='Show what would be processed without actually processing'
 )
+@click.option(
+    '--enable-diarization/--disable-diarization',
+    default=True,
+    help='Enable speaker diarization (default: enabled)'
+)
 @click.version_option(version="0.1.0", prog_name="audio-aigented")
 def cli(
     input_dir: Optional[Path],
@@ -67,7 +72,8 @@ def cli(
     device: Optional[str],
     model_name: Optional[str],
     formats: Optional[str],
-    dry_run: bool
+    dry_run: bool,
+    enable_diarization: bool
 ) -> None:
     """
     Audio Transcription Pipeline using NVIDIA NeMo.
@@ -106,8 +112,9 @@ def cli(
         if formats:
             pipeline_config.output["formats"] = [f.strip() for f in formats.split(',')]
             
-        # Update log level in config
+        # Update log level and diarization in config
         pipeline_config.processing["log_level"] = log_level
+        pipeline_config.processing["enable_diarization"] = enable_diarization
         
         # Initialize pipeline
         pipeline = TranscriptionPipeline(pipeline_config)

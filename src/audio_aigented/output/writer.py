@@ -75,6 +75,10 @@ class FileWriter:
                     txt_path = self._write_text_output(result, file_output_dir)
                     created_files.append(txt_path)
                     
+                elif format_type.lower() == "attributed_txt":
+                    attributed_txt_path = self._write_attributed_text_output(result, file_output_dir)
+                    created_files.append(attributed_txt_path)
+                    
                 else:
                     logger.warning(f"Unsupported output format: {format_type}")
                     
@@ -134,6 +138,32 @@ class FileWriter:
             
         except Exception as e:
             logger.error(f"Failed to write text output: {e}")
+            raise
+            
+    def _write_attributed_text_output(self, result: TranscriptionResult, output_dir: Path) -> Path:
+        """
+        Write attributed text format output (theater play style).
+        
+        Args:
+            result: TranscriptionResult to write
+            output_dir: Directory to write to
+            
+        Returns:
+            Path to created attributed text file
+        """
+        attributed_txt_path = output_dir / "transcript_attributed.txt"
+        
+        try:
+            attributed_content = self.formatter.format_as_attributed_text(result)
+            
+            with open(attributed_txt_path, 'w', encoding='utf-8') as f:
+                f.write(attributed_content)
+                
+            logger.debug(f"Attributed text output written to {attributed_txt_path}")
+            return attributed_txt_path
+            
+        except Exception as e:
+            logger.error(f"Failed to write attributed text output: {e}")
             raise
             
     def write_batch_results(self, results: List[TranscriptionResult]) -> List[List[Path]]:

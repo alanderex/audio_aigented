@@ -21,7 +21,7 @@ transcription:
 
 # Output formatting settings
 output:
-  formats: ["json", "txt"]     # Output formats to generate
+  formats: ["json", "txt", "attributed_txt"]  # Output formats to generate
   include_timestamps: true     # Include timing information
   include_confidence: true     # Include confidence scores in output
   pretty_json: true           # Format JSON with indentation
@@ -31,3 +31,4 @@ processing:
   enable_caching: true        # Cache models and intermediate results
   parallel_workers: 1         # Number of parallel processing workers
   log_level: "INFO"          # Logging level (DEBUG, INFO, WARNING, ERROR)
+  enable_diarization: true    # Enable speaker diarization

@@ -129,7 +129,7 @@ class ProcessingConfig(BaseModel):
     
     # Output settings
     output: Dict[str, Any] = Field(default_factory=lambda: {
-        "formats": ["json", "txt"],
+        "formats": ["json", "txt", "attributed_txt"],
         "include_timestamps": True,
         "include_confidence": True,
         "pretty_json": True,
@@ -140,6 +140,7 @@ class ProcessingConfig(BaseModel):
         "enable_caching": True,
         "parallel_workers": 1,
         "log_level": "INFO",
+        "enable_diarization": True,
     })
     
     @validator('input_dir', 'output_dir', 'cache_dir')
