@@ -1,0 +1,33 @@
+# Default configuration for Audio Transcription Pipeline
+# This file contains all the default settings for the ASR system
+
+# Directory paths - relative to project root
+input_dir: "./inputs"
+output_dir: "./outputs" 
+cache_dir: "./cache"
+
+# Audio processing settings
+audio:
+  sample_rate: 16000          # Target sample rate for processing
+  batch_size: 8               # Batch size for processing multiple files
+  max_duration: 30.0          # Maximum segment duration in seconds
+
+# ASR transcription settings  
+transcription:
+  model_name: "stt_en_conformer_ctc_large"  # NVIDIA NeMo model name
+  device: "cuda"                            # Device for inference (cuda/cpu)
+  enable_confidence_scores: true            # Include confidence scores
+  language: "en"                           # Language code
+
+# Output formatting settings
+output:
+  formats: ["json", "txt"]     # Output formats to generate
+  include_timestamps: true     # Include timing information
+  include_confidence: true     # Include confidence scores in output
+  pretty_json: true           # Format JSON with indentation
+
+# Processing settings
+processing:
+  enable_caching: true        # Cache models and intermediate results
+  parallel_workers: 1         # Number of parallel processing workers
+  log_level: "INFO"          # Logging level (DEBUG, INFO, WARNING, ERROR)

@@ -1,7 +1,62 @@
 [project]
 name = "audio-aigented"
 version = "0.1.0"
-description = "Add your description here"
+description = "GPU-accelerated audio transcription pipeline using NVIDIA NeMo for ASR"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    # Core ML/Audio Processing
+    "nemo-toolkit[asr]>=1.20.0",
+    "torch>=2.0.0",
+    "torchaudio>=2.0.0",
+    "librosa>=0.10.0",
+    "soundfile>=0.12.0",
+    
+    # Data Processing & Validation
+    "pydantic>=2.0.0",
+    "omegaconf>=2.3.0",
+    "numpy>=1.24.0",
+    
+    # File Handling
+    "pathlib",
+    "pyyaml>=6.0",
+    
+    # CLI & Progress
+    "click>=8.0.0",
+    "tqdm>=4.64.0",
+    
+    # Utilities
+    "typing-extensions>=4.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+]
+
+[project.scripts]
+audio-transcribe = "audio_aigented.main:cli"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=src --cov-report=term-missing"

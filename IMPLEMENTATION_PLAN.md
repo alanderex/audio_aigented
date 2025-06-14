@@ -118,13 +118,14 @@ outputs/
     └── transcript.txt
 ```
 
-## � Implementation Steps
+## 🔧 Implementation Steps
 
 ### Phase 1: Project Foundation
 1. **Dependencies Setup** - Add NVIDIA NeMo, PyTorch, librosa, pydantic, omegaconf
-2. **Data Models** - Create Pydantic schemas for transcription results
-3. **Configuration System** - YAML-based config with OmegaConf
-4. **Basic Project Structure** - Create module directories and `__init__.py` files
+2. **Directory Structure Creation** - Create `inputs/`, `outputs/`, `cache/`, `src/`, `tests/`, `config/`, `examples/` directories
+3. **Data Models** - Create Pydantic schemas for transcription results
+4. **Configuration System** - YAML-based config with OmegaConf
+5. **Basic Project Structure** - Create module directories and `__init__.py` files
 
 ### Phase 2: Core Components
 5. **Audio Loader** - `.wav` file loading, validation, resampling for NeMo compatibility
