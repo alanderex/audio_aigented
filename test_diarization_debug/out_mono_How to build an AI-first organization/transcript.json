@@ -1,0 +1,36 @@
+{
+  "audio_file": {
+    "path": "/home/hendorf/code/audio_ai/app/data/input/out_mono_How to build an AI-first organization.wav",
+    "duration": 3619.7006875,
+    "sample_rate": 16000,
+    "channels": 1,
+    "format": "wav"
+  },
+  "transcription": {
+    "full_text": "",
+    "segments": []
+  },
+  "processing": {
+    "processing_time": 0.9463567733764648,
+    "timestamp": "2025-06-15T08:54:43.295048",
+    "model_info": {
+      "name": "stt_en_conformer_ctc_large",
+      "device": "cuda",
+      "load_time": "1.68",
+      "sample_rate": "16000"
+    }
+  },
+  "metadata": {
+    "segments_count": 0,
+    "average_confidence": null,
+    "processing_speed_ratio": 3824.879569029161,
+    "num_speakers": 1,
+    "speaker_segments": [
+      {
+        "start": 0.0,
+        "end": 3619.7006875,
+        "speaker": "SPEAKER_00"
+      }
+    ]
+  }
+}

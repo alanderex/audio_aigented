@@ -189,12 +189,11 @@ class TranscriptionPipeline:
             # Stage 2: Load audio data
             audio_data, sample_rate = self.audio_loader.load_audio_data(audio_file)
             
-            # Stage 3: Transcribe audio
-            result = self.asr_transcriber.transcribe_audio_file(audio_file, audio_data)
-
-            # Stage 4: Perform diarization (if enabled)
+            # Stage 3: Perform diarization FIRST (if enabled)
+            speaker_segments = None
             if self.config.processing.get("enable_diarization", True) and self.diarizer is not None:
                 try:
+                    logger.info(f"Performing speaker diarization for {file_path.name}")
                     speaker_segments = self.diarizer.diarize(audio_file)
                     
                     if speaker_segments:
@@ -205,31 +204,34 @@ class TranscriptionPipeline:
                         # Log first few speaker segments for debugging
                         for i, (start, end, speaker) in enumerate(speaker_segments[:5]):
                             logger.debug(f"Speaker segment {i}: {speaker} [{start:.2f}s - {end:.2f}s]")
-                        
-                        # Assign speaker IDs to transcription segments
-                        self._assign_speakers_to_segments(result.segments, speaker_segments)
-                        
-                        # Count how many segments got speaker assignments
-                        segments_with_speakers = sum(1 for seg in result.segments if seg.speaker_id is not None)
-                        logger.info(f"Assigned speakers to {segments_with_speakers}/{len(result.segments)} transcription segments")
-                        
-                        # Add speaker information to metadata
-                        result.metadata["speaker_segments"] = [
-                            {"start": start, "end": end, "speaker": speaker}
-                            for start, end, speaker in speaker_segments
-                        ]
-                        result.metadata["num_speakers"] = len(unique_speakers)
-                        
-                        logger.info(f"Diarization completed for {file_path.name}: "
-                                  f"identified {result.metadata['num_speakers']} speakers")
                     else:
                         logger.warning(f"No speaker segments detected for {file_path.name}")
                         
                 except Exception as e:
                     logger.warning(f"Diarization failed for {file_path.name}: {e}")
                     logger.info("Continuing without speaker identification")
+                    speaker_segments = None
             else:
-                logger.debug("Diarization disabled - skipping speaker identification")
+                logger.debug("Diarization disabled - will assign single speaker")
+            
+            # Stage 4: Transcribe audio with speaker information
+            if speaker_segments:
+                # Transcribe with diarization - process each speaker segment
+                logger.info(f"Transcribing {len(speaker_segments)} speaker segments")
+                result = self._transcribe_with_speakers(audio_file, audio_data, speaker_segments)
+            else:
+                # Transcribe without diarization - assume single speaker
+                logger.info("Transcribing as single speaker")
+                result = self.asr_transcriber.transcribe_audio_file(audio_file, audio_data)
+                
+                # Assign default speaker to all segments
+                for segment in result.segments:
+                    segment.speaker_id = "SPEAKER_00"
+                
+                result.metadata["num_speakers"] = 1
+                result.metadata["speaker_segments"] = [
+                    {"start": 0.0, "end": audio_file.duration or 0.0, "speaker": "SPEAKER_00"}
+                ]
             
             # Stage 5: Write output
             created_files = self.file_writer.write_transcription_result(result)
@@ -405,6 +407,111 @@ class TranscriptionPipeline:
             else:
                 logger.debug(f"No speaker assigned to segment "
                            f"[{segment.start_time:.2f}s - {segment.end_time:.2f}s]")
+                
+    def _transcribe_with_speakers(self, audio_file: AudioFile, audio_data, speaker_segments: List[Tuple[float, float, str]]) -> TranscriptionResult:
+        """
+        Transcribe audio with speaker diarization by processing each speaker segment.
+        
+        Args:
+            audio_file: The audio file being processed
+            audio_data: The loaded audio data
+            speaker_segments: List of (start_time, end_time, speaker_id) tuples
+            
+        Returns:
+            TranscriptionResult with speaker-attributed segments
+        """
+        all_segments = []
+        full_text_parts = []
+        
+        # Group consecutive segments by speaker for more efficient processing
+        grouped_segments = []
+        current_group = None
+        
+        for start, end, speaker in speaker_segments:
+            if current_group is None or current_group['speaker'] != speaker:
+                if current_group:
+                    grouped_segments.append(current_group)
+                current_group = {
+                    'speaker': speaker,
+                    'start': start,
+                    'end': end,
+                    'segments': [(start, end)]
+                }
+            else:
+                # Extend current group
+                current_group['end'] = end
+                current_group['segments'].append((start, end))
+        
+        if current_group:
+            grouped_segments.append(current_group)
+        
+        logger.info(f"Processing {len(grouped_segments)} speaker groups from {len(speaker_segments)} segments")
+        
+        # Process each speaker group
+        for group in grouped_segments:
+            speaker_id = group['speaker']
+            group_start = group['start']
+            group_end = group['end']
+            
+            logger.debug(f"Transcribing {speaker_id} segment: {group_start:.2f}s - {group_end:.2f}s")
+            
+            # Extract audio segment for this speaker group
+            start_sample = int(group_start * audio_file.sample_rate)
+            end_sample = int(group_end * audio_file.sample_rate)
+            segment_audio = audio_data[start_sample:end_sample]
+            
+            # Create temporary audio file for this segment
+            import tempfile
+            import soundfile as sf
+            
+            with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as tmp_file:
+                sf.write(tmp_file.name, segment_audio, audio_file.sample_rate)
+                
+                # Create AudioFile object for the segment
+                segment_audio_file = AudioFile(
+                    path=Path(tmp_file.name),
+                    duration=group_end - group_start,
+                    sample_rate=audio_file.sample_rate,
+                    channels=audio_file.channels
+                )
+                
+                try:
+                    # Transcribe this segment
+                    segment_result = self.asr_transcriber.transcribe_audio_file(segment_audio_file, segment_audio)
+                    
+                    # Adjust timestamps and assign speaker
+                    for seg in segment_result.segments:
+                        seg.start_time += group_start
+                        seg.end_time += group_start
+                        seg.speaker_id = speaker_id
+                        all_segments.append(seg)
+                    
+                    if segment_result.full_text:
+                        full_text_parts.append(segment_result.full_text)
+                        
+                finally:
+                    # Clean up temporary file
+                    Path(tmp_file.name).unlink(missing_ok=True)
+        
+        # Sort segments by start time
+        all_segments.sort(key=lambda s: s.start_time)
+        
+        # Create final result
+        result = TranscriptionResult(
+            audio_file=audio_file,
+            segments=all_segments,
+            full_text=' '.join(full_text_parts),
+            processing_time=0.0,  # Will be updated by caller
+            metadata={
+                'num_speakers': len(set(s['speaker'] for s in grouped_segments)),
+                'speaker_segments': [
+                    {"start": start, "end": end, "speaker": speaker}
+                    for start, end, speaker in speaker_segments
+                ]
+            }
+        )
+        
+        return result
         
     @property
     def pipeline_status(self) -> PipelineStatus:

@@ -5,21 +5,32 @@
 ```mermaid
 graph LR
     A[Audio Files<br/>.wav] --> B[Audio Loader]
-    B --> C[ASR Transcriber<br/>NVIDIA NeMo]
-    C --> D[Output Formatter]
-    D --> E[File Writer]
-    E --> F[Results<br/>JSON + TXT]
+    B --> C{Diarization<br/>Enabled?}
+    C -->|Yes| D[Speaker Diarizer<br/>NVIDIA NeMo]
+    C -->|No| E[Single Speaker<br/>Assignment]
+    D --> F[ASR Transcriber<br/>Per Speaker Segment]
+    E --> G[ASR Transcriber<br/>Full Audio]
+    F --> H[Output Formatter]
+    G --> H
+    H --> I[File Writer]
+    I --> J[Results<br/>JSON + TXT]
     
-    G[Config YAML] --> B
-    G --> C
-    G --> D
-    G --> E
+    K[Config YAML] --> B
+    K --> D
+    K --> F
+    K --> G
+    K --> H
+    K --> I
     
     subgraph "Pipeline Stages"
         B
         C
         D
         E
+        F
+        G
+        H
+        I
     end
 ```
 
@@ -28,11 +39,12 @@ graph LR
 | Component | Purpose | Key Features |
 |-----------|---------|--------------|
 | **Audio Loader** | Load and prepare `.wav` files | Resampling, validation, batching |
-| **ASR Transcriber** | Speech-to-text conversion | NVIDIA NeMo integration, GPU optimization |
-| **Output Formatter** | Structure transcription results | Timestamps, confidence scores, metadata |
-| **File Writer** | Save processed results | JSON/TXT output, directory creation |
+| **Speaker Diarizer** | Identify speaker segments | NVIDIA NeMo clustering, RTTM parsing, temporal mapping |
+| **ASR Transcriber** | Speech-to-text conversion | NVIDIA NeMo integration, GPU optimization, per-speaker processing |
+| **Output Formatter** | Structure transcription results | Timestamps, confidence scores, speaker attribution |
+| **File Writer** | Save processed results | JSON/TXT/attributed output, directory creation |
 | **Config Manager** | Handle YAML configurations | OmegaConf integration, validation |
-| **Main Pipeline** | Orchestrate processing stages | Error handling, logging, caching |
+| **Main Pipeline** | Orchestrate processing stages | Diarization-first workflow, error handling, logging |
 
 ## 📁 Project Structure
 
@@ -129,15 +141,16 @@ outputs/
 
 ### Phase 2: Core Components
 5. **Audio Loader** - `.wav` file loading, validation, resampling for NeMo compatibility
-6. **ASR Transcriber** - NVIDIA NeMo integration with GPU optimization
-7. **Output Formatter** - Structure results with timestamps and confidence scores
-8. **File Writer** - Save JSON/TXT outputs with proper directory structure
+6. **Speaker Diarizer** - NVIDIA NeMo clustering diarization, RTTM output parsing
+7. **ASR Transcriber** - NVIDIA NeMo integration with per-speaker segment processing
+8. **Output Formatter** - Structure results with timestamps, confidence scores, and speaker IDs
+9. **File Writer** - Save JSON/TXT/attributed outputs with proper directory structure
 
 ### Phase 3: Pipeline Integration
-9. **Main Pipeline** - Orchestrate all stages with error handling
-10. **CLI Interface** - Command-line interface through `main.py`
-11. **Caching System** - Cache ASR results to avoid re-processing
-12. **Logging & Monitoring** - Comprehensive logging for debugging
+10. **Main Pipeline** - Orchestrate diarization-first workflow with conditional processing
+11. **CLI Interface** - Command-line interface through `main.py` with diarization toggle
+12. **Caching System** - Cache both diarization and ASR results to avoid re-processing
+13. **Logging & Monitoring** - Comprehensive logging for debugging
 
 ### Phase 4: Testing & Documentation
 13. **Unit Tests** - Pytest tests for each component (minimum 3 tests per module)
@@ -147,8 +160,21 @@ outputs/
 
 ## ⚙️ Key Technical Details
 
+### Diarization-First Workflow
+When diarization is enabled:
+1. **Speaker Diarization**: Process entire audio file to identify speaker segments
+2. **Segment Extraction**: Extract audio segments for each speaker change
+3. **Per-Speaker Transcription**: Transcribe each segment individually
+4. **Result Merging**: Combine transcriptions with speaker attribution
+
+When diarization is disabled:
+1. **Single Speaker Assignment**: Assume entire audio is from one speaker (SPEAKER_00)
+2. **Full Audio Transcription**: Process entire file in chunks
+3. **Consistent Output Format**: Maintain same output structure for compatibility
+
 ### NVIDIA NeMo Integration
 - Use pre-trained conformer models (e.g., `stt_en_conformer_ctc_large`)
+- Use clustering diarizer with TitanNet embeddings for speaker identification
 - GPU acceleration with CUDA 12.8
 - Batch processing for efficiency
 - Automatic model caching
@@ -164,14 +190,21 @@ transcription:
   device: "cuda"
   enable_confidence_scores: true
   
+diarization:
+  enabled: true
+  min_speakers: 1
+  max_speakers: 8
+  config_path: "./config/diarization_config.yaml"
+  
 output:
-  format: ["json", "txt"]
+  formats: ["json", "txt", "attributed_txt"]
   include_timestamps: true
   output_dir: "./outputs"
   
 processing:
   enable_caching: true
   cache_dir: "./cache"
+  enable_diarization: true
 ```
 
 ### Data Models

@@ -3,7 +3,8 @@ AUDIO TRANSCRIPTION REPORT
 ============================================================
 File: out_mono_How to build an AI-first organization.wav
 Duration: 3619.70 seconds
-Processed: 2025-06-15 08:49:30
+Processed: 2025-06-15 08:54:43
+Processing Time: 0.95s (Speed: 3824.88x)
 ------------------------------------------------------------
 FULL TRANSCRIPTION:
 

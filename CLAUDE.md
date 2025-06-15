@@ -34,26 +34,28 @@ This is a GPU-accelerated audio transcription pipeline using NVIDIA NeMo for ASR
 
 ### Pipeline Flow
 
-The system follows a 5-stage pipeline architecture:
+The system follows a diarization-first pipeline architecture:
 
 1. **Audio Loading** (`src/audio_aigented/audio/loader.py`):
    - Loads `.wav` files from input directory
    - Validates audio format and properties
    - Resamples to target sample rate (16kHz)
 
-2. **ASR Transcription** (`src/audio_aigented/transcription/asr.py`):
-   - Uses NVIDIA NeMo conformer models
-   - GPU-accelerated processing
+2. **Speaker Diarization** (`src/audio_aigented/diarization/diarizer.py`) - *When enabled*:
+   - Processes entire audio file to identify speaker segments
+   - Uses NVIDIA NeMo's clustering diarization with TitanNet embeddings
+   - Outputs speaker segments with timestamps (start, end, speaker_id)
+   - Parses RTTM files with support for filenames containing spaces
+
+3. **ASR Transcription** (`src/audio_aigented/transcription/asr.py`):
+   - If diarization enabled: Transcribes each speaker segment individually
+   - If diarization disabled: Assumes single speaker (SPEAKER_00) and transcribes full audio
+   - Uses NVIDIA NeMo conformer models with GPU acceleration
    - Generates timestamped segments with confidence scores
 
-3. **Speaker Diarization** (`src/audio_aigented/diarization/diarizer.py`):
-   - Identifies different speakers in audio
-   - Uses NVIDIA NeMo's clustering diarization
-   - Assigns speaker labels (SPEAKER_00, SPEAKER_01, etc.)
-
 4. **Output Formatting** (`src/audio_aigented/formatting/formatter.py`):
-   - Structures transcription results
-   - Combines ASR output with speaker information
+   - Structures transcription results with speaker attribution
+   - Aligns ASR output with diarization segments
    - Prepares multiple output formats
 
 5. **File Writing** (`src/audio_aigented/output/writer.py`):
@@ -91,6 +93,8 @@ For each audio file, creates a directory with three output files:
 - Default model is `stt_en_conformer_ctc_large` (configurable)
 - Speaker diarization can be disabled for faster processing
 - All paths in the codebase should be absolute, not relative
+- Diarization is performed BEFORE transcription for better speaker attribution
+- When testing, use audio files with multiple speakers from `/home/hendorf/code/audio_ai/app/data/input`
 
 ## Previous Instructions
 
