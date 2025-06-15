@@ -15,9 +15,22 @@ audio:
 # ASR transcription settings  
 transcription:
   model_name: "stt_en_conformer_ctc_large"  # NVIDIA NeMo model name
+  # Alternative models:
+  # - "nvidia/parakeet-tdt-0.6b-v2"  # Faster transducer model (600M params)
+  # - "stt_en_conformer_ctc_small"  # Smaller CTC model
+  # - "stt_en_conformer_ctc_medium" # Medium CTC model
   device: "cuda"                            # Device for inference (cuda/cpu)
   enable_confidence_scores: true            # Include confidence scores
   language: "en"                           # Language code
+  
+  # Enhanced transcription options (optional)
+  vocabulary_file: null                     # Path to custom vocabulary file
+  beam_size: 4                             # Beam search width (1 = greedy)
+  lm_weight: 0.0                           # Language model weight (0.0-2.0)
+  word_insertion_penalty: 0.0              # Penalty for word insertions
+  blank_penalty: 0.0                       # CTC blank penalty
+  language_model_path: null                # Path to n-gram language model
+  enable_file_context: true                # Enable per-file context loading
 
 # Output formatting settings
 output:

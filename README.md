@@ -7,7 +7,9 @@ A modular, GPU-accelerated audio processing pipeline that automates the transcri
 - **🚀 GPU-Accelerated ASR** using NVIDIA NeMo conformer models
 - **🎤 Speaker Diarization** for identifying who spoke when
 - **📁 Batch Processing** of multiple audio files
-- **🎯 High Accuracy** with confidence scoring
+- **🎯 High Accuracy** with confidence scoring and custom vocabulary support
+- **📝 Custom Vocabulary** for domain-specific terms and corrections
+- **🔍 Advanced Decoding** with beam search and contextual biasing
 - **📊 Structured Output** in JSON and human-readable text formats
 - **⚙️ Configurable Pipeline** with YAML configuration
 - **🔄 Modular Architecture** for easy extension and maintenance
@@ -139,6 +141,18 @@ uv run python main.py --input-dir ./inputs --device cpu
 # Disable speaker diarization (faster processing)
 uv run python main.py --input-dir ./inputs --disable-diarization
 
+# Use faster Parakeet model
+uv run python main.py --input-dir ./inputs --model-name nvidia/parakeet-tdt-0.6b-v2
+
+# Clear cache before processing
+uv run python main.py --input-dir ./inputs --clear-cache
+
+# Clear cache only (no processing)
+uv run python main.py --clear-cache
+
+# Create context template files for your audio
+uv run python main.py --input-dir ./inputs --create-context-templates
+
 # Show help for all options
 uv run python main.py --help
 ```
@@ -244,6 +258,126 @@ outputs/
 }
 ```
 
+## 🎯 Context Enhancement Features
+
+### Per-File Context
+
+Provide custom vocabulary, speaker names, and corrections for individual audio files to dramatically improve transcription accuracy.
+
+#### 1. Create Context Templates
+```bash
+uv run python main.py --input-dir ./inputs --create-context-templates
+```
+
+This creates `.context.json` files for each audio file with the following structure:
+
+```json
+{
+  "vocabulary": ["technical_term1", "product_name"],
+  "corrections": {
+    "mistranscribed": "correct_term"
+  },
+  "speakers": {
+    "SPEAKER_00": "John Smith",
+    "SPEAKER_01": "Jane Doe"
+  },
+  "topic": "Meeting about AI implementation",
+  "acronyms": {
+    "AI": "Artificial Intelligence",
+    "ROI": "Return on Investment"
+  },
+  "phrases": ["machine learning pipeline", "quarterly targets"],
+  "notes": "Q4 planning meeting with technical discussion"
+}
+```
+
+#### 2. Context File Locations
+
+The pipeline looks for context in order of priority:
+1. `audio.wav.context.json` - JSON sidecar file
+2. `audio.wav.txt` - Simple vocabulary list (one term per line)
+3. `.context/audio.json` - Centralized context directory
+
+#### 3. Global Vocabulary File
+
+For terms common across all files:
+```bash
+uv run python main.py --vocabulary-file ./technical_terms.txt
+```
+
+Format:
+```
+# Technical terms
+neural_network
+kubernetes
+microservices
+
+# Corrections  
+kube -> Kubernetes
+ml ops -> MLOps
+
+# Acronyms
+K8S:Kubernetes
+API:Application Programming Interface
+
+# Phrases
+"continuous integration pipeline"
+"infrastructure as code"
+```
+
+### Benefits of Context
+
+- **Improved Accuracy**: Domain-specific terms are recognized correctly
+- **Speaker Attribution**: Replace generic IDs with actual names
+- **Corrections**: Fix systematic transcription errors
+- **Acronym Expansion**: Automatically expand technical acronyms
+
+### Using Raw Content Files
+
+Extract context from meeting agendas, documentation, presentations, or any related text/HTML files:
+
+#### Global Content Files
+```bash
+# Single content file
+uv run python main.py --input-dir ./inputs --content-file meeting_agenda.html
+
+# Multiple content files
+uv run python main.py --input-dir ./inputs \
+  --content-file agenda.html \
+  --content-file technical_spec.md \
+  --content-file presentation.txt
+
+# Directory of content files
+uv run python main.py --input-dir ./inputs --content-dir ./meeting_materials
+```
+
+#### Per-Audio Content Files
+Place companion content files next to audio files:
+- `meeting.wav` → `meeting.wav.content.txt` (or `.html`, `.md`)
+- `presentation.wav` → `presentation.wav.content.html`
+
+The pipeline automatically detects and uses these companion files.
+
+#### What Gets Extracted
+- **Technical Terms**: CamelCase, snake_case, hyphenated terms
+- **Acronyms**: Automatically detected with expansions
+- **Proper Names**: People, products, companies
+- **Key Phrases**: Frequently mentioned multi-word terms
+- **Identifiers**: Version numbers, ticket IDs, codes
+
+Example extracted context:
+```json
+{
+  "vocabulary": ["kubernetes", "langchain", "embeddings", "gpt-4-turbo"],
+  "acronyms": {
+    "LLM": "Large Language Model",
+    "RAG": "Retrieval Augmented Generation",
+    "ROI": "Return on Investment"
+  },
+  "phrases": ["vector database", "machine learning pipeline"],
+  "topic": "AI Strategy Meeting - Q4 2024"
+}
+
 ## ⚙️ Configuration Options
 
 ### Audio Processing
@@ -253,6 +387,7 @@ outputs/
 
 ### ASR Settings
 - `model_name`: NVIDIA NeMo model to use
+  - `nvidia/parakeet-tdt-0.6b-v2` (fastest, transducer-based model)
   - `stt_en_conformer_ctc_small` (fast, lower accuracy)
   - `stt_en_conformer_ctc_medium` (balanced)
   - `stt_en_conformer_ctc_large` (slow, higher accuracy)
@@ -269,6 +404,9 @@ outputs/
 - `enable_caching`: Cache models and intermediate results
 - `parallel_workers`: Number of parallel processing workers
 - `log_level`: Logging verbosity (DEBUG, INFO, WARNING, ERROR)
+- `--clear-cache`: Clear cached transcription results before processing
+  - Use alone to clear cache without processing: `uv run python main.py --clear-cache`
+  - Use with input directory to clear cache and process: `uv run python main.py --input-dir ./inputs --clear-cache`
 
 ### Output Options
 - `formats`: Output formats (`["json", "txt", "attributed_txt"]`)

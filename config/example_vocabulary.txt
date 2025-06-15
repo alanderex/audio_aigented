@@ -1,0 +1,136 @@
+# Custom Vocabulary File
+# Format: term -> replacement, ACRONYM:expansion, or "phrase"
+# Lines starting with # are comments
+
+# Common ASR Corrections (case-insensitive)
+ai -> AI
+ml -> ML
+llm -> LLM
+gpt -> GPT
+api -> API
+gpu -> GPU
+cpu -> CPU
+ram -> RAM
+ssd -> SSD
+ui -> UI
+ux -> UX
+ci cd -> CI/CD
+dev ops -> DevOps
+git hub -> GitHub
+java script -> JavaScript
+type script -> TypeScript
+py torch -> PyTorch
+tensor flow -> TensorFlow
+
+# Acronym Expansions
+NLP:Natural Language Processing
+ASR:Automatic Speech Recognition
+TTS:Text to Speech
+CUDA:Compute Unified Device Architecture
+BERT:Bidirectional Encoder Representations from Transformers
+GPT:Generative Pre-trained Transformer
+API:Application Programming Interface
+SDK:Software Development Kit
+CLI:Command Line Interface
+GUI:Graphical User Interface
+REST:Representational State Transfer
+JSON:JavaScript Object Notation
+YAML:Yet Another Markup Language
+SQL:Structured Query Language
+HTML:HyperText Markup Language
+CSS:Cascading Style Sheets
+AWS:Amazon Web Services
+GCP:Google Cloud Platform
+K8s:Kubernetes
+
+# Contextual Phrases (preserved as-is)
+"machine learning"
+"deep learning"
+"neural network"
+"artificial intelligence"
+"natural language processing"
+"computer vision"
+"reinforcement learning"
+"transfer learning"
+"federated learning"
+"edge computing"
+"cloud computing"
+"continuous integration"
+"continuous deployment"
+"infrastructure as code"
+"serverless computing"
+"microservices architecture"
+"distributed systems"
+"high availability"
+"load balancing"
+"data pipeline"
+"feature engineering"
+"model training"
+"hyperparameter tuning"
+"cross validation"
+"gradient descent"
+"back propagation"
+"transformer model"
+"attention mechanism"
+"embedding layer"
+"convolutional neural network"
+"recurrent neural network"
+"long short term memory"
+"generative adversarial network"
+"variational autoencoder"
+
+# Technical Terms (for boosting/recognition)
+kubernetes
+docker
+elasticsearch
+postgresql
+mongodb
+redis
+kafka
+rabbitmq
+nginx
+apache
+jenkins
+gitlab
+terraform
+ansible
+prometheus
+grafana
+pytorch
+tensorflow
+scikit-learn
+pandas
+numpy
+matplotlib
+jupyter
+conda
+virtualenv
+webpack
+nodejs
+reactjs
+angular
+vuejs
+django
+flask
+fastapi
+spring
+hibernate
+maven
+gradle
+intellij
+vscode
+github
+bitbucket
+jira
+confluence
+slack
+zoom
+teams
+
+# confernce
+pi data -> PyData
+pie data -> PyData
+pidata -> PyData
+pi con -> PyCon
+pie con -> PyCon
+picon -> PyCon

@@ -15,6 +15,13 @@ uv pip install -e ".[dev]"       # Install with dev dependencies
 uv run python main.py --input-dir ./inputs
 uv run python main.py --input-dir ./inputs --output-dir ./outputs --device cuda
 uv run python main.py --input-dir ./inputs --disable-diarization  # Faster processing without speaker diarization
+uv run python main.py --input-dir ./inputs --model-name nvidia/parakeet-tdt-0.6b-v2  # Use faster Parakeet model
+uv run python main.py --input-dir ./inputs --clear-cache  # Clear cache before processing
+uv run python main.py --clear-cache  # Clear cache only (no processing)
+uv run python main.py --input-dir ./inputs --create-context-templates  # Create context files
+uv run python main.py --input-dir ./inputs --vocabulary-file vocab.txt  # Use global vocabulary
+uv run python main.py --input-dir ./inputs --content-file agenda.html  # Extract context from HTML
+uv run python main.py --input-dir ./inputs --content-dir ./docs  # Extract from directory
 
 # Testing
 uv run pytest                                        # Run all tests
@@ -91,6 +98,9 @@ For each audio file, creates a directory with three output files:
 - NVIDIA NeMo models are downloaded automatically on first use
 - GPU (CUDA) is strongly recommended for performance
 - Default model is `stt_en_conformer_ctc_large` (configurable)
+- Alternative models available:
+  - `nvidia/parakeet-tdt-0.6b-v2` - Faster transducer model with 600M parameters
+  - `stt_en_conformer_ctc_small/medium` - Smaller CTC models for faster processing
 - Speaker diarization can be disabled for faster processing
 - All paths in the codebase should be absolute, not relative
 - Diarization is performed BEFORE transcription for better speaker attribution

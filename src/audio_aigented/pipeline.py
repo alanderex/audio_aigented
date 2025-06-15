@@ -15,6 +15,7 @@ from tqdm import tqdm
 from .audio.loader import AudioLoader
 from .cache.manager import CacheManager
 from .config.manager import ConfigManager
+from .context.file_context import FileContextManager
 from .models.schemas import (
     AudioFile,
     PipelineStatus,
@@ -23,6 +24,7 @@ from .models.schemas import (
 )
 from .output.writer import FileWriter
 from .transcription.asr import ASRTranscriber
+from .transcription.enhanced_asr import EnhancedASRTranscriber
 
 logger = logging.getLogger(__name__)
 
@@ -52,8 +54,19 @@ class TranscriptionPipeline:
 
         # Initialize components
         self.audio_loader = AudioLoader(self.config)
-        self.asr_transcriber = ASRTranscriber(self.config)
+        
+        # Initialize ASR transcriber (enhanced if vocabulary file is provided)
+        if (self.config.transcription.get("vocabulary_file") or 
+            self.config.transcription.get("enable_file_context", True)):
+            self.asr_transcriber = EnhancedASRTranscriber(self.config)
+            logger.info("Using enhanced ASR transcriber with vocabulary support")
+        else:
+            self.asr_transcriber = ASRTranscriber(self.config)
+            
         self.file_writer = FileWriter(self.config)
+        
+        # Initialize file context manager
+        self.context_manager = FileContextManager()
         
         # Initialize cache manager
         cache_enabled = self.config.processing.get("enable_caching", True)
@@ -206,6 +219,37 @@ class TranscriptionPipeline:
 
             # Stage 2: Load audio data
             audio_data, sample_rate = self.audio_loader.load_audio_data(audio_file)
+            
+            # Stage 2.5: Load file-specific context if available
+            file_context = None
+            if self.config.transcription.get("enable_file_context", True):
+                file_context = self.context_manager.load_context_for_file(file_path)
+                
+                # Also check for companion content files
+                companion_files = []
+                # Check for .content.txt or .content.html files
+                for ext in ['.txt', '.html', '.md']:
+                    companion = file_path.with_suffix(file_path.suffix + '.content' + ext)
+                    if companion.exists():
+                        companion_files.append(companion)
+                        
+                # Enhance context with companion content files
+                if companion_files:
+                    logger.info(f"Found {len(companion_files)} companion content files")
+                    if file_context:
+                        file_context = self.context_manager.enhance_context_with_raw_content(
+                            file_context, companion_files
+                        )
+                    else:
+                        file_context = self.context_manager.load_raw_content_files(companion_files)
+                
+                if file_context:
+                    logger.info(f"Loaded file-specific context for {file_path.name}")
+                    # Apply context to enhanced ASR if available
+                    if isinstance(self.asr_transcriber, EnhancedASRTranscriber):
+                        self.context_manager.create_enhanced_vocabulary(
+                            self.asr_transcriber.vocab_manager, file_context
+                        )
 
             # Stage 3: Perform diarization FIRST (if enabled)
             speaker_segments = None
@@ -250,6 +294,11 @@ class TranscriptionPipeline:
                 result.metadata["speaker_segments"] = [
                     {"start": 0.0, "end": audio_file.duration or 0.0, "speaker": "SPEAKER_00"}
                 ]
+            
+            # Stage 4.5: Apply speaker names from context if available
+            if file_context and file_context.get('speakers'):
+                self.context_manager.apply_speaker_names(result.segments, file_context)
+                result.metadata["speaker_names"] = file_context['speakers']
 
             # Stage 5: Write output
             created_files = self.file_writer.write_transcription_result(result)

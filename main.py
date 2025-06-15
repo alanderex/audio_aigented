@@ -5,6 +5,7 @@ This module provides a command-line interface for running the ASR transcription
 system with various options for input directories, configuration, and output formats.
 """
 
+import json
 import logging
 import sys
 from pathlib import Path
@@ -63,6 +64,37 @@ from src.audio_aigented.config.manager import ConfigManager
     default=True,
     help='Enable speaker diarization (default: enabled)'
 )
+@click.option(
+    '--vocabulary-file',
+    type=click.Path(exists=True, file_okay=True, dir_okay=False, path_type=Path),
+    help='Path to custom vocabulary file for improved accuracy'
+)
+@click.option(
+    '--beam-size',
+    type=int,
+    help='Beam search width for decoding (default: 4)'
+)
+@click.option(
+    '--clear-cache',
+    is_flag=True,
+    help='Clear the cache before processing'
+)
+@click.option(
+    '--create-context-templates',
+    is_flag=True,
+    help='Create context template files for each audio file'
+)
+@click.option(
+    '--content-file',
+    multiple=True,
+    type=click.Path(exists=True, file_okay=True, dir_okay=False, path_type=Path),
+    help='Raw content file (txt/html/md) to extract context from. Can be used multiple times.'
+)
+@click.option(
+    '--content-dir',
+    type=click.Path(exists=True, file_okay=False, dir_okay=True, path_type=Path),
+    help='Directory containing content files for context extraction'
+)
 @click.version_option(version="0.1.0", prog_name="audio-aigented")
 def cli(
     input_dir: Optional[Path],
@@ -73,7 +105,13 @@ def cli(
     model_name: Optional[str],
     formats: Optional[str],
     dry_run: bool,
-    enable_diarization: bool
+    enable_diarization: bool,
+    vocabulary_file: Optional[Path],
+    beam_size: Optional[int],
+    clear_cache: bool,
+    create_context_templates: bool,
+    content_file: tuple[Path, ...],
+    content_dir: Optional[Path]
 ) -> None:
     """
     Audio Transcription Pipeline using NVIDIA NeMo.
@@ -116,8 +154,57 @@ def cli(
         pipeline_config.processing["log_level"] = log_level
         pipeline_config.processing["enable_diarization"] = enable_diarization
         
+        # Update enhanced transcription options
+        if vocabulary_file:
+            pipeline_config.transcription["vocabulary_file"] = str(vocabulary_file)
+        if beam_size is not None:
+            pipeline_config.transcription["beam_size"] = beam_size
+        
         # Initialize pipeline
         pipeline = TranscriptionPipeline(pipeline_config)
+        
+        # Collect content files if provided
+        raw_content_files = list(content_file)  # Convert tuple to list
+        
+        # Add files from content directory if provided
+        if content_dir:
+            content_extensions = ['.txt', '.html', '.htm', '.md']
+            for ext in content_extensions:
+                raw_content_files.extend(content_dir.glob(f'*{ext}'))
+            
+        # If content files provided, create a global context
+        if raw_content_files:
+            click.echo(f"\n📄 Analyzing {len(raw_content_files)} content files for context...")
+            global_context = pipeline.context_manager.load_raw_content_files(raw_content_files)
+            
+            # Save the extracted context for review
+            context_output = pipeline_config.output_dir / "extracted_context.json"
+            context_output.parent.mkdir(parents=True, exist_ok=True)
+            with open(context_output, 'w') as f:
+                json.dump(global_context, f, indent=2)
+            
+            click.echo(f"✅ Extracted context saved to: {context_output}")
+            click.echo(f"   - {len(global_context.get('vocabulary', []))} vocabulary terms")
+            click.echo(f"   - {len(global_context.get('acronyms', {}))} acronyms")
+            click.echo(f"   - {len(global_context.get('phrases', []))} key phrases")
+            
+            # Apply global context to enhanced ASR if available
+            if hasattr(pipeline, 'asr_transcriber') and hasattr(pipeline.asr_transcriber, 'vocab_manager'):
+                pipeline.context_manager.create_enhanced_vocabulary(
+                    pipeline.asr_transcriber.vocab_manager, global_context
+                )
+        
+        # Clear cache if requested
+        if clear_cache:
+            click.echo("🧹 Clearing cache...")
+            count = pipeline.cache_manager.clear_cache()
+            click.echo(f"✅ Cleared {count} cached files")
+            click.echo("")
+            
+            # If no input directory specified, just clear cache and exit
+            if not input_dir and not pipeline_config.input_dir:
+                click.echo("Cache cleared. No input directory specified, exiting.")
+                return
         
         # Show configuration
         click.echo("🎙️  Audio Transcription Pipeline")
@@ -137,6 +224,21 @@ def cli(
             sys.exit(1)
             
         click.echo(f"📁 Found {len(audio_files)} audio files to process")
+        
+        # Handle context template creation
+        if create_context_templates:
+            click.echo("\n📝 Creating context templates...")
+            created_count = 0
+            for file_path in audio_files:
+                try:
+                    template_path = pipeline.context_manager.save_context_template(file_path)
+                    click.echo(f"   ✅ Created: {template_path.name}")
+                    created_count += 1
+                except Exception as e:
+                    click.echo(f"   ❌ Failed for {file_path.name}: {e}")
+            click.echo(f"\nCreated {created_count} context template files")
+            click.echo("Edit these files to provide custom vocabulary, speaker names, and corrections.")
+            return
         
         # Handle dry run
         if dry_run:

@@ -106,11 +106,28 @@ class ASRTranscriber:
             logger.info(f"Loading NeMo ASR model: {self.model_name}")
             start_time = time.time()
 
-            # Load pre-trained model
-            self.model = nemo_asr.models.ASRModel.from_pretrained(
-                model_name=self.model_name,
-                map_location=self.device
-            )
+            # Handle different model naming conventions
+            model_name = self.model_name
+            if model_name.startswith("nvidia/"):
+                # For models with nvidia/ prefix, try without the prefix first
+                # as NeMo sometimes expects just the model name
+                try:
+                    self.model = nemo_asr.models.ASRModel.from_pretrained(
+                        model_name=model_name.replace("nvidia/", ""),
+                        map_location=self.device
+                    )
+                except Exception:
+                    # If that fails, try with the full name
+                    self.model = nemo_asr.models.ASRModel.from_pretrained(
+                        model_name=model_name,
+                        map_location=self.device
+                    )
+            else:
+                # Load pre-trained model
+                self.model = nemo_asr.models.ASRModel.from_pretrained(
+                    model_name=model_name,
+                    map_location=self.device
+                )
 
             # Move model to device
             if self.device == "cuda":
@@ -124,12 +141,19 @@ class ASRTranscriber:
             load_time = time.time() - start_time
             logger.info(f"Model loaded successfully in {load_time:.2f} seconds")
 
+            # Get model architecture type
+            model_type = "unknown"
+            if hasattr(self.model, '__class__'):
+                model_type = self.model.__class__.__name__
+                logger.info(f"Model architecture: {model_type}")
+
             # Cache model info - DIAGNOSTIC: Convert all values to strings for Pydantic compatibility
             self._model_info = {
                 "name": self.model_name,
                 "device": self.device,
                 "load_time": f"{load_time:.2f}",  # Convert float to string
-                "sample_rate": str(getattr(self.model, 'sample_rate', 16000))  # Convert int to string
+                "sample_rate": str(getattr(self.model, 'sample_rate', 16000)),  # Convert int to string
+                "model_type": model_type
             }
 
             logger.info(f"DIAGNOSTIC - Model info types: {[(k, type(v)) for k, v in self._model_info.items()]}")
@@ -313,6 +337,20 @@ class ASRTranscriber:
                     return hyp.text
                 else:
                     return str(hyp)
+            elif isinstance(result, dict):
+                # Handle dictionary results (common with transducer models like Parakeet)
+                if 'text' in result:
+                    return result['text']
+                elif 'predictions' in result:
+                    # Some models return predictions array
+                    predictions = result['predictions']
+                    if predictions and len(predictions) > 0:
+                        pred = predictions[0]
+                        if isinstance(pred, dict) and 'text' in pred:
+                            return pred['text']
+                        elif isinstance(pred, str):
+                            return pred
+                return str(result)
             elif isinstance(result, str):
                 return result
             else:
