@@ -8,3 +8,23 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Test output directories
+test_*_output/
+test_output/
+test_*_debug/
+
+# Cache and temporary directories
+cache/
+custom_input/
+custom_inputs/
+custom_outputs/
+function_test/
+partial/
+
+.mypy_cache/
+.pytest_cache/
+.coverage
+.ruff_cache/
+inputs/
+outputs/

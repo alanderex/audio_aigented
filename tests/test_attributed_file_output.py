@@ -6,7 +6,6 @@ Tests the file writing capabilities for the attributed text format.
 
 import pytest
 from datetime import datetime
-from pathlib import Path
 
 from src.audio_aigented.output.writer import FileWriter
 from src.audio_aigented.models.schemas import ProcessingConfig, TranscriptionResult, AudioFile, AudioSegment

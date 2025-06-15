@@ -7,7 +7,6 @@ Tests the ConfigManager class for loading, validation, and updating configuratio
 import pytest
 import tempfile
 from pathlib import Path
-from unittest.mock import patch
 
 from src.audio_aigented.config.manager import ConfigManager, load_config
 from src.audio_aigented.models.schemas import ProcessingConfig

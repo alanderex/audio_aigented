@@ -6,8 +6,6 @@ Tests the theater play style speaker attribution format.
 
 import pytest
 from datetime import datetime
-from pathlib import Path
-from unittest.mock import Mock
 
 from src.audio_aigented.formatting.formatter import OutputFormatter
 from src.audio_aigented.models.schemas import TranscriptionResult, AudioFile, AudioSegment

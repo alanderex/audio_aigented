@@ -221,7 +221,6 @@ class TestProcessingConfig:
     def test_processing_config_directory_creation(self):
         """Test that ProcessingConfig creates directories (edge case)."""
         import tempfile
-        import shutil
         
         with tempfile.TemporaryDirectory() as temp_dir:
             temp_path = Path(temp_dir)

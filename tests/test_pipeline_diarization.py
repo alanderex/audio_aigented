@@ -5,8 +5,7 @@ Tests the complete pipeline flow with diarization enabled.
 """
 
 import pytest
-from unittest.mock import Mock, patch, MagicMock
-from pathlib import Path
+from unittest.mock import Mock, patch
 
 from src.audio_aigented.pipeline import TranscriptionPipeline
 from src.audio_aigented.models.schemas import ProcessingConfig, AudioSegment
