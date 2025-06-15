@@ -1,0 +1,32 @@
+# Override file for local development and testing
+# This file is automatically loaded by docker-compose
+
+version: '3.8'
+
+services:
+  audio-transcription:
+    # Mount the test audio directory by default
+    volumes:
+      # Keep existing volumes from main docker-compose.yml
+      - ./inputs:/data/inputs:ro
+      - ./outputs:/data/outputs:rw
+      - ./models:/data/models:rw
+      - ./cache:/data/cache:rw
+      - ./config:/app/config:ro
+      
+      # Additional mount for test files
+      - /home/hendorf/code/audio_ai/app/data/input:/data/test-inputs:ro
+    
+    # Override command to show available options
+    command: --help
+    
+    # Environment variables for development
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - CUDA_VISIBLE_DEVICES=0
+      - NEMO_CACHE_DIR=/data/models
+      - HF_HOME=/data/models
+      - TORCH_HOME=/data/models
+      - XDG_CACHE_HOME=/data/cache
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO

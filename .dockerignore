@@ -1,0 +1,69 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.tox/
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Project specific
+outputs/
+inputs/
+models/
+cache/
+test_*_output/
+test_output/
+test_*_debug/
+custom_input/
+custom_inputs/
+custom_outputs/
+function_test/
+partial/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Docker
+.dockerignore
+Dockerfile*
+docker-compose*.yml
+
+# Documentation
+docs/
+LICENSE
+# Keep README.md and CLAUDE.md as they're needed by Dockerfile
+!README.md
+!CLAUDE.md
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+tmp/

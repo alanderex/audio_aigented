@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  audio-transcription:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: audio-aigented:latest
+    container_name: audio-transcription-pipeline
+    
+    # Enable GPU support (comment out if NVIDIA runtime not available)
+    # runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - CUDA_VISIBLE_DEVICES=0
+      # Set cache directories to use mounted volumes
+      - NEMO_CACHE_DIR=/data/models
+      - HF_HOME=/data/models
+      - TORCH_HOME=/data/models
+      - XDG_CACHE_HOME=/data/cache
+      # Logging
+      - PYTHONUNBUFFERED=1
+    
+    # Volume mappings for persistent data
+    volumes:
+      # Input/Output directories
+      - ./inputs:/data/inputs:ro          # Read-only input directory
+      - ./outputs:/data/outputs:rw        # Read-write output directory
+      
+      # Model cache (persistent across runs)
+      - ./models:/data/models:rw          # Models downloaded by NeMo
+      - ./cache:/data/cache:rw            # General cache directory
+      
+      # Configuration
+      - ./config:/app/config:ro           # Configuration files
+      
+      # Optional: Map specific input directory
+      # - /home/hendorf/code/audio_ai/app/data/input:/data/inputs:ro
+    
+    # Working directory
+    working_dir: /app
+    
+    # Default command (can be overridden)
+    command: --input-dir /data/inputs --output-dir /data/outputs
+    
+    # Resource limits
+    # Uncomment if GPU is available:
+  deploy:
+    resources:
+       reservations:
+       devices:
+         - driver: nvidia
+           count: 1
+           capabilities: [gpu]
+    limits:
+       memory: 16G
+    
+    # Shared memory size for diarization
+    shm_size: '8gb'
+    
+    # Network settings
+    network_mode: bridge
+    
+    # Restart policy
+    restart: unless-stopped
+
+# Optional: Development service with additional tools
+  audio-transcription-dev:
+    extends: audio-transcription
+    volumes:
+      # Mount source code for development
+      - ./src:/app/src:rw
+      - ./tests:/app/tests:rw
+      - ./main.py:/app/main.py:rw
+      # Input/Output directories
+      - ./inputs:/data/inputs:ro
+      - ./outputs:/data/outputs:rw
+      # Model cache
+      - ./models:/data/models:rw
+      - ./cache:/data/cache:rw
+      # Configuration
+      - ./config:/app/config:ro
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+    profiles:
+      - dev
+
+# Networks (optional)
+networks:
+  default:
+    driver: bridge
