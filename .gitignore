@@ -70,3 +70,6 @@ Thumbs.db
 # Jupyter
 .ipynb_checkpoints/
 *.ipynb
+
+# Documentation mkdocs
+site/
