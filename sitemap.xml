@@ -1,159 +1,183 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/IMPLEMENTATION_PLAN/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/IMPLEMENTATION_PLAN/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/deployment/docker/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/deployment/docker/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/deployment/models/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/deployment/models/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/deployment/performance/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/deployment/performance/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/development/contributing/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/development/contributing/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/development/structure/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/development/structure/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/development/testing/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/development/testing/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/getting-started/configuration/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/getting-started/configuration/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/getting-started/installation/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/getting-started/installation/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/getting-started/quickstart/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/getting-started/quickstart/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/guide/audio-processing/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/guide/audio-processing/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/guide/diarization/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/guide/diarization/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/guide/output-formats/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/guide/improving-accuracy/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/guide/overview/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/guide/output-formats/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/guide/transcription/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/guide/overview/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/SUMMARY/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/guide/transcription/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/__init__/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/SUMMARY/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/pipeline/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/__init__/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/audio/__init__/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/pipeline/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/audio/loader/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/audio/__init__/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/cache/__init__/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/audio/loader/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/cache/manager/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/cache/__init__/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/config/__init__/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/cache/manager/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/config/manager/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/config/__init__/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/diarization/__init__/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/config/manager/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/diarization/config_builder/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/context/__init__/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/diarization/diarizer/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/context/content_analyzer/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/diarization/rttm_parser/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/context/file_context/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/formatting/__init__/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/diarization/__init__/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/formatting/formatter/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/diarization/config_builder/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/models/__init__/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/diarization/diarizer/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/models/schemas/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/diarization/rttm_parser/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/output/__init__/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/formatting/__init__/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/output/writer/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/formatting/formatter/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/transcription/__init__/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/models/__init__/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/transcription/asr/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/models/schemas/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/utils/__init__/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/output/__init__/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
     <url>
-         <loc>https://github.com/yourusername/audio_aigented/reference/audio_aigented/utils/decorators/</loc>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/output/writer/</loc>
+         <lastmod>2025-06-15</lastmod>
+    </url>
+    <url>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/transcription/__init__/</loc>
+         <lastmod>2025-06-15</lastmod>
+    </url>
+    <url>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/transcription/asr/</loc>
+         <lastmod>2025-06-15</lastmod>
+    </url>
+    <url>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/transcription/enhanced_asr/</loc>
+         <lastmod>2025-06-15</lastmod>
+    </url>
+    <url>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/transcription/vocabulary/</loc>
+         <lastmod>2025-06-15</lastmod>
+    </url>
+    <url>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/utils/__init__/</loc>
+         <lastmod>2025-06-15</lastmod>
+    </url>
+    <url>
+         <loc>https://alanderex.github.io/audio_aigented/reference/audio_aigented/utils/decorators/</loc>
          <lastmod>2025-06-15</lastmod>
     </url>
 </urlset>

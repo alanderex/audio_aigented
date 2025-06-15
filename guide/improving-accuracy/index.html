@@ -12,24 +12,24 @@
         <meta name="author" content="Audio AIgented Team">
       
       
-        <link rel="canonical" href="https://alanderex.github.io/audio_aigented/IMPLEMENTATION_PLAN/">
+        <link rel="canonical" href="https://alanderex.github.io/audio_aigented/guide/improving-accuracy/">
       
       
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
     
     
       
-        <title>🏗️ Core ASR Transcription Pipeline - Implementation Plan - Audio Transcription Pipeline</title>
+        <title>Improving Transcription Accuracy - Audio Transcription Pipeline</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -48,11 +48,11 @@
       
     
     
-      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../stylesheets/extra.css">
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#core-asr-transcription-pipeline-implementation-plan" class="md-skip">
+        <a href="#improving-transcription-accuracy" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="Audio Transcription Pipeline" class="md-header__button md-logo" aria-label="Audio Transcription Pipeline" data-md-component="logo">
+    <a href="../.." title="Audio Transcription Pipeline" class="md-header__button md-logo" aria-label="Audio Transcription Pipeline" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              🏗️ Core ASR Transcription Pipeline - Implementation Plan
+              Improving Transcription Accuracy
             
           </span>
         </div>
@@ -221,7 +221,7 @@
   
   
     <li class="md-tabs__item">
-      <a href=".." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -242,7 +242,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../getting-started/installation/" class="md-tabs__link">
+        <a href="../../getting-started/installation/" class="md-tabs__link">
           
   
   
@@ -264,7 +264,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../guide/overview/" class="md-tabs__link">
+        <a href="../overview/" class="md-tabs__link">
           
   
   
@@ -286,7 +286,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../deployment/docker/" class="md-tabs__link">
+        <a href="../../deployment/docker/" class="md-tabs__link">
           
   
   
@@ -308,7 +308,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../development/structure/" class="md-tabs__link">
+        <a href="../../development/structure/" class="md-tabs__link">
           
   
   
@@ -330,7 +330,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../reference/audio_aigented/__init__/" class="md-tabs__link">
+        <a href="../../reference/audio_aigented/__init__/" class="md-tabs__link">
           
   
   
@@ -374,7 +374,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Audio Transcription Pipeline" class="md-nav__button md-logo" aria-label="Audio Transcription Pipeline" data-md-component="logo">
+    <a href="../.." title="Audio Transcription Pipeline" class="md-nav__button md-logo" aria-label="Audio Transcription Pipeline" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -404,7 +404,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -479,7 +479,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../getting-started/installation/" class="md-nav__link">
+      <a href="../../getting-started/installation/" class="md-nav__link">
         
   
   
@@ -502,7 +502,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../getting-started/quickstart/" class="md-nav__link">
+      <a href="../../getting-started/quickstart/" class="md-nav__link">
         
   
   
@@ -525,7 +525,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../getting-started/configuration/" class="md-nav__link">
+      <a href="../../getting-started/configuration/" class="md-nav__link">
         
   
   
@@ -612,7 +612,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guide/overview/" class="md-nav__link">
+      <a href="../overview/" class="md-nav__link">
         
   
   
@@ -635,7 +635,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guide/audio-processing/" class="md-nav__link">
+      <a href="../audio-processing/" class="md-nav__link">
         
   
   
@@ -658,7 +658,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guide/diarization/" class="md-nav__link">
+      <a href="../diarization/" class="md-nav__link">
         
   
   
@@ -681,7 +681,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guide/transcription/" class="md-nav__link">
+      <a href="../transcription/" class="md-nav__link">
         
   
   
@@ -704,7 +704,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guide/output-formats/" class="md-nav__link">
+      <a href="../output-formats/" class="md-nav__link">
         
   
   
@@ -787,7 +787,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../deployment/docker/" class="md-nav__link">
+      <a href="../../deployment/docker/" class="md-nav__link">
         
   
   
@@ -810,7 +810,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../deployment/models/" class="md-nav__link">
+      <a href="../../deployment/models/" class="md-nav__link">
         
   
   
@@ -833,7 +833,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../deployment/performance/" class="md-nav__link">
+      <a href="../../deployment/performance/" class="md-nav__link">
         
   
   
@@ -916,7 +916,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../development/structure/" class="md-nav__link">
+      <a href="../../development/structure/" class="md-nav__link">
         
   
   
@@ -939,7 +939,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../development/contributing/" class="md-nav__link">
+      <a href="../../development/contributing/" class="md-nav__link">
         
   
   
@@ -962,7 +962,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../development/testing/" class="md-nav__link">
+      <a href="../../development/testing/" class="md-nav__link">
         
   
   
@@ -1084,7 +1084,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../reference/audio_aigented/__init__/" class="md-nav__link ">
+            <a href="../../reference/audio_aigented/__init__/" class="md-nav__link ">
               
   
   
@@ -1140,7 +1140,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../reference/audio_aigented/audio/__init__/" class="md-nav__link ">
+            <a href="../../reference/audio_aigented/audio/__init__/" class="md-nav__link ">
               
   
   
@@ -1173,7 +1173,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/audio_aigented/audio/loader/" class="md-nav__link">
+      <a href="../../reference/audio_aigented/audio/loader/" class="md-nav__link">
         
   
   
@@ -1227,7 +1227,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../reference/audio_aigented/cache/__init__/" class="md-nav__link ">
+            <a href="../../reference/audio_aigented/cache/__init__/" class="md-nav__link ">
               
   
   
@@ -1260,7 +1260,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/audio_aigented/cache/manager/" class="md-nav__link">
+      <a href="../../reference/audio_aigented/cache/manager/" class="md-nav__link">
         
   
   
@@ -1314,7 +1314,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../reference/audio_aigented/config/__init__/" class="md-nav__link ">
+            <a href="../../reference/audio_aigented/config/__init__/" class="md-nav__link ">
               
   
   
@@ -1347,7 +1347,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/audio_aigented/config/manager/" class="md-nav__link">
+      <a href="../../reference/audio_aigented/config/manager/" class="md-nav__link">
         
   
   
@@ -1403,7 +1403,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../reference/audio_aigented/context/__init__/" class="md-nav__link ">
+            <a href="../../reference/audio_aigented/context/__init__/" class="md-nav__link ">
               
   
   
@@ -1436,7 +1436,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/audio_aigented/context/content_analyzer/" class="md-nav__link">
+      <a href="../../reference/audio_aigented/context/content_analyzer/" class="md-nav__link">
         
   
   
@@ -1459,7 +1459,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/audio_aigented/context/file_context/" class="md-nav__link">
+      <a href="../../reference/audio_aigented/context/file_context/" class="md-nav__link">
         
   
   
@@ -1517,7 +1517,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../reference/audio_aigented/diarization/__init__/" class="md-nav__link ">
+            <a href="../../reference/audio_aigented/diarization/__init__/" class="md-nav__link ">
               
   
   
@@ -1550,7 +1550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/audio_aigented/diarization/config_builder/" class="md-nav__link">
+      <a href="../../reference/audio_aigented/diarization/config_builder/" class="md-nav__link">
         
   
   
@@ -1573,7 +1573,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/audio_aigented/diarization/diarizer/" class="md-nav__link">
+      <a href="../../reference/audio_aigented/diarization/diarizer/" class="md-nav__link">
         
   
   
@@ -1596,7 +1596,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/audio_aigented/diarization/rttm_parser/" class="md-nav__link">
+      <a href="../../reference/audio_aigented/diarization/rttm_parser/" class="md-nav__link">
         
   
   
@@ -1650,7 +1650,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../reference/audio_aigented/formatting/__init__/" class="md-nav__link ">
+            <a href="../../reference/audio_aigented/formatting/__init__/" class="md-nav__link ">
               
   
   
@@ -1683,7 +1683,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/audio_aigented/formatting/formatter/" class="md-nav__link">
+      <a href="../../reference/audio_aigented/formatting/formatter/" class="md-nav__link">
         
   
   
@@ -1737,7 +1737,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../reference/audio_aigented/models/__init__/" class="md-nav__link ">
+            <a href="../../reference/audio_aigented/models/__init__/" class="md-nav__link ">
               
   
   
@@ -1770,7 +1770,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/audio_aigented/models/schemas/" class="md-nav__link">
+      <a href="../../reference/audio_aigented/models/schemas/" class="md-nav__link">
         
   
   
@@ -1824,7 +1824,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../reference/audio_aigented/output/__init__/" class="md-nav__link ">
+            <a href="../../reference/audio_aigented/output/__init__/" class="md-nav__link ">
               
   
   
@@ -1857,7 +1857,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/audio_aigented/output/writer/" class="md-nav__link">
+      <a href="../../reference/audio_aigented/output/writer/" class="md-nav__link">
         
   
   
@@ -1888,7 +1888,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/audio_aigented/pipeline/" class="md-nav__link">
+      <a href="../../reference/audio_aigented/pipeline/" class="md-nav__link">
         
   
   
@@ -1938,7 +1938,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../reference/audio_aigented/transcription/__init__/" class="md-nav__link ">
+            <a href="../../reference/audio_aigented/transcription/__init__/" class="md-nav__link ">
               
   
   
@@ -1971,7 +1971,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/audio_aigented/transcription/asr/" class="md-nav__link">
+      <a href="../../reference/audio_aigented/transcription/asr/" class="md-nav__link">
         
   
   
@@ -1994,7 +1994,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/audio_aigented/transcription/enhanced_asr/" class="md-nav__link">
+      <a href="../../reference/audio_aigented/transcription/enhanced_asr/" class="md-nav__link">
         
   
   
@@ -2017,7 +2017,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/audio_aigented/transcription/vocabulary/" class="md-nav__link">
+      <a href="../../reference/audio_aigented/transcription/vocabulary/" class="md-nav__link">
         
   
   
@@ -2071,7 +2071,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../reference/audio_aigented/utils/__init__/" class="md-nav__link ">
+            <a href="../../reference/audio_aigented/utils/__init__/" class="md-nav__link ">
               
   
   
@@ -2104,7 +2104,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/audio_aigented/utils/decorators/" class="md-nav__link">
+      <a href="../../reference/audio_aigented/utils/decorators/" class="md-nav__link">
         
   
   
@@ -2162,257 +2162,287 @@
   
 
 
-<h1 id="core-asr-transcription-pipeline-implementation-plan">🏗️ Core ASR Transcription Pipeline - Implementation Plan<a class="headerlink" href="#core-asr-transcription-pipeline-implementation-plan" title="Permanent link">&para;</a></h1>
-<h2 id="architecture-overview">📐 Architecture Overview<a class="headerlink" href="#architecture-overview" title="Permanent link">&para;</a></h2>
-<pre class="mermaid"><code>graph LR
-    A[Audio Files&lt;br/&gt;.wav] --&gt; B[Audio Loader]
-    B --&gt; C{Diarization&lt;br/&gt;Enabled?}
-    C --&gt;|Yes| D[Speaker Diarizer&lt;br/&gt;NVIDIA NeMo]
-    C --&gt;|No| E[Single Speaker&lt;br/&gt;Assignment]
-    D --&gt; F[ASR Transcriber&lt;br/&gt;Per Speaker Segment]
-    E --&gt; G[ASR Transcriber&lt;br/&gt;Full Audio]
-    F --&gt; H[Output Formatter]
-    G --&gt; H
-    H --&gt; I[File Writer]
-    I --&gt; J[Results&lt;br/&gt;JSON + TXT]
-
-    K[Config YAML] --&gt; B
-    K --&gt; D
-    K --&gt; F
-    K --&gt; G
-    K --&gt; H
-    K --&gt; I
-
-    subgraph "Pipeline Stages"
-        B
-        C
-        D
-        E
-        F
-        G
-        H
-        I
-    end</code></pre>
-<h2 id="core-components">🧩 Core Components<a class="headerlink" href="#core-components" title="Permanent link">&para;</a></h2>
+<h1 id="improving-transcription-accuracy">Improving Transcription Accuracy<a class="headerlink" href="#improving-transcription-accuracy" title="Permanent link">&para;</a></h1>
+<p>This guide covers various techniques to improve transcription accuracy, especially for technical content and domain-specific terminology.</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The audio transcription pipeline provides several methods to improve accuracy:</p>
+<ol>
+<li><strong>Custom Vocabulary</strong> - Define domain-specific terms and corrections</li>
+<li><strong>Contextual Biasing</strong> - Boost recognition of important terms</li>
+<li><strong>Advanced Decoding</strong> - Use beam search and language models</li>
+<li><strong>Post-Processing</strong> - Apply corrections after transcription</li>
+</ol>
+<h2 id="custom-vocabulary">Custom Vocabulary<a class="headerlink" href="#custom-vocabulary" title="Permanent link">&para;</a></h2>
+<h3 id="creating-a-vocabulary-file">Creating a Vocabulary File<a class="headerlink" href="#creating-a-vocabulary-file" title="Permanent link">&para;</a></h3>
+<p>Create a text file with your custom vocabulary using this format:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a># Corrections (case-insensitive)
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>ai -&gt; AI
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>ml -&gt; ML
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>java script -&gt; JavaScript
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a># Acronym Expansions
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>API:Application Programming Interface
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>SDK:Software Development Kit
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>NLP:Natural Language Processing
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a># Contextual Phrases (preserved exactly)
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>&quot;machine learning&quot;
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>&quot;continuous integration&quot;
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>&quot;neural network&quot;
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a># Technical Terms (for boosting)
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>PyTorch
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>TensorFlow
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>Kubernetes
+</span></code></pre></div>
+<h3 id="using-custom-vocabulary">Using Custom Vocabulary<a class="headerlink" href="#using-custom-vocabulary" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Use with command line</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>python<span class="w"> </span>main.py<span class="w"> </span>--vocabulary-file<span class="w"> </span>config/tech_vocabulary.txt
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Combine with other options</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>python<span class="w"> </span>main.py<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span>--vocabulary-file<span class="w"> </span>config/tech_vocabulary.txt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span>--beam-size<span class="w"> </span><span class="m">8</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span>--input-dir<span class="w"> </span>./technical_talks
+</span></code></pre></div>
+<h2 id="advanced-decoding-options">Advanced Decoding Options<a class="headerlink" href="#advanced-decoding-options" title="Permanent link">&para;</a></h2>
+<h3 id="beam-search">Beam Search<a class="headerlink" href="#beam-search" title="Permanent link">&para;</a></h3>
+<p>Beam search explores multiple hypotheses during decoding:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Default (greedy decoding)</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>python<span class="w"> </span>main.py<span class="w"> </span>--beam-size<span class="w"> </span><span class="m">1</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Better accuracy (slower)</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>python<span class="w"> </span>main.py<span class="w"> </span>--beam-size<span class="w"> </span><span class="m">8</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Maximum accuracy (much slower)</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>python<span class="w"> </span>main.py<span class="w"> </span>--beam-size<span class="w"> </span><span class="m">16</span>
+</span></code></pre></div>
+<h3 id="configuration-file-options">Configuration File Options<a class="headerlink" href="#configuration-file-options" title="Permanent link">&para;</a></h3>
+<p>Add these to your <code>config.yaml</code>:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">transcription</span><span class="p">:</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="c1"># Enhanced options</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">vocabulary_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;config/tech_vocabulary.txt&quot;</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">beam_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nt">lm_weight</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.5</span><span class="w">              </span><span class="c1"># Language model weight (0.0-2.0)</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="nt">word_insertion_penalty</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span><span class="w">  </span><span class="c1"># Penalty for extra words</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="nt">blank_penalty</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span><span class="w">          </span><span class="c1"># CTC blank penalty</span>
+</span></code></pre></div>
+<h2 id="domain-specific-vocabularies">Domain-Specific Vocabularies<a class="headerlink" href="#domain-specific-vocabularies" title="Permanent link">&para;</a></h2>
+<h3 id="software-development">Software Development<a class="headerlink" href="#software-development" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a># Common corrections
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>git hub -&gt; GitHub
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>java script -&gt; JavaScript
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>type script -&gt; TypeScript
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>py torch -&gt; PyTorch
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>tensor flow -&gt; TensorFlow
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a># Acronyms
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>API:Application Programming Interface
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>CLI:Command Line Interface
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>GUI:Graphical User Interface
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>SDK:Software Development Kit
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>IDE:Integrated Development Environment
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a># Technical terms
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>microservices
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>containerization
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>orchestration
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>serverless
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>kubernetes
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>docker
+</span></code></pre></div>
+<h3 id="machine-learning">Machine Learning<a class="headerlink" href="#machine-learning" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a># Corrections
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>a i -&gt; AI
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>m l -&gt; ML
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>l l m -&gt; LLM
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>g p t -&gt; GPT
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a># Acronyms
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>NLP:Natural Language Processing
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>CNN:Convolutional Neural Network
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>RNN:Recurrent Neural Network
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>GAN:Generative Adversarial Network
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>BERT:Bidirectional Encoder Representations from Transformers
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a># Phrases
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>&quot;neural network&quot;
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>&quot;deep learning&quot;
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>&quot;machine learning&quot;
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>&quot;transfer learning&quot;
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>&quot;reinforcement learning&quot;
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>&quot;gradient descent&quot;
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>&quot;back propagation&quot;
+</span></code></pre></div>
+<h3 id="medicalhealthcare">Medical/Healthcare<a class="headerlink" href="#medicalhealthcare" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a># Medical acronyms
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>MRI:Magnetic Resonance Imaging
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>CT:Computed Tomography
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>ECG:Electrocardiogram
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>EEG:Electroencephalogram
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>ICU:Intensive Care Unit
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a># Medical terms
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>anesthesia
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>cardiovascular
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>neurological
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>pharmaceutical
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>diagnosis
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>prognosis
+</span></code></pre></div>
+<h2 id="programmatic-usage">Programmatic Usage<a class="headerlink" href="#programmatic-usage" title="Permanent link">&para;</a></h2>
+<h3 id="using-enhanced-transcriber">Using Enhanced Transcriber<a class="headerlink" href="#using-enhanced-transcriber" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">src.audio_aigented.transcription.enhanced_asr</span><span class="w"> </span><span class="kn">import</span> <span class="n">EnhancedASRTranscriber</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">src.audio_aigented.transcription.vocabulary</span><span class="w"> </span><span class="kn">import</span> <span class="n">VocabularyManager</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Create vocabulary manager</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">vocab_manager</span> <span class="o">=</span> <span class="n">VocabularyManager</span><span class="p">()</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># Add corrections</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="n">vocab_manager</span><span class="o">.</span><span class="n">add_corrections</span><span class="p">({</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>    <span class="s2">&quot;python&quot;</span><span class="p">:</span> <span class="s2">&quot;Python&quot;</span><span class="p">,</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>    <span class="s2">&quot;java script&quot;</span><span class="p">:</span> <span class="s2">&quot;JavaScript&quot;</span><span class="p">,</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="p">})</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="c1"># Add technical terms</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="n">vocab_manager</span><span class="o">.</span><span class="n">add_terms</span><span class="p">([</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>    <span class="s2">&quot;PyTorch&quot;</span><span class="p">,</span> <span class="s2">&quot;TensorFlow&quot;</span><span class="p">,</span> <span class="s2">&quot;NumPy&quot;</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="p">])</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="c1"># Create enhanced transcriber</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="n">config</span> <span class="o">=</span> <span class="n">load_config</span><span class="p">()</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="n">transcriber</span> <span class="o">=</span> <span class="n">EnhancedASRTranscriber</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="n">transcriber</span><span class="o">.</span><span class="n">vocab_manager</span> <span class="o">=</span> <span class="n">vocab_manager</span>
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="c1"># Transcribe with corrections</span>
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="n">result</span> <span class="o">=</span> <span class="n">transcriber</span><span class="o">.</span><span class="n">transcribe_audio_file</span><span class="p">(</span><span class="n">audio_file</span><span class="p">,</span> <span class="n">audio_data</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="extracting-vocabulary-from-text">Extracting Vocabulary from Text<a class="headerlink" href="#extracting-vocabulary-from-text" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Extract technical terms from documentation</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;technical_docs.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="n">technical_text</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="n">transcriber</span><span class="o">.</span><span class="n">add_vocabulary_from_text</span><span class="p">(</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="n">technical_text</span><span class="p">,</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    <span class="n">extract_technical</span><span class="o">=</span><span class="kc">True</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<h3 id="1-start-with-common-corrections">1. Start with Common Corrections<a class="headerlink" href="#1-start-with-common-corrections" title="Permanent link">&para;</a></h3>
+<p>Begin with the most common misrecognitions in your domain:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a># Common ASR mistakes
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>i o s -&gt; iOS
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>oh s -&gt; OS
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>sequel -&gt; SQL
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>no sequel -&gt; NoSQL
+</span></code></pre></div>
+<h3 id="2-use-contextual-phrases">2. Use Contextual Phrases<a class="headerlink" href="#2-use-contextual-phrases" title="Permanent link">&para;</a></h3>
+<p>For multi-word technical terms:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>&quot;machine learning model&quot;
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>&quot;distributed systems&quot;
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>&quot;load balancer&quot;
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>&quot;message queue&quot;
+</span></code></pre></div>
+<h3 id="3-balance-vocabulary-size">3. Balance Vocabulary Size<a class="headerlink" href="#3-balance-vocabulary-size" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Too few terms: Missing corrections</li>
+<li>Too many terms: Slower processing</li>
+<li>Optimal: 100-500 domain-specific terms</li>
+</ul>
+<h3 id="4-test-and-iterate">4. Test and Iterate<a class="headerlink" href="#4-test-and-iterate" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Transcribe sample audio</li>
+<li>Identify common errors</li>
+<li>Add corrections to vocabulary</li>
+<li>Re-test with updated vocabulary</li>
+</ol>
+<h3 id="5-combine-techniques">5. Combine Techniques<a class="headerlink" href="#5-combine-techniques" title="Permanent link">&para;</a></h3>
+<p>Best results come from combining:
+- Custom vocabulary
+- Larger beam size
+- Appropriate model selection
+- Post-processing corrections</p>
+<h2 id="performance-considerations">Performance Considerations<a class="headerlink" href="#performance-considerations" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Component</th>
-<th>Purpose</th>
-<th>Key Features</th>
+<th>Setting</th>
+<th>Speed Impact</th>
+<th>Accuracy Impact</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Audio Loader</strong></td>
-<td>Load and prepare <code>.wav</code> files</td>
-<td>Resampling, validation, batching</td>
+<td>Vocabulary (&lt; 100 terms)</td>
+<td>Minimal</td>
+<td>Moderate</td>
 </tr>
 <tr>
-<td><strong>Speaker Diarizer</strong></td>
-<td>Identify speaker segments</td>
-<td>NVIDIA NeMo clustering, RTTM parsing, temporal mapping</td>
+<td>Vocabulary (&gt; 500 terms)</td>
+<td>Slight</td>
+<td>Moderate</td>
 </tr>
 <tr>
-<td><strong>ASR Transcriber</strong></td>
-<td>Speech-to-text conversion</td>
-<td>NVIDIA NeMo integration, GPU optimization, per-speaker processing</td>
+<td>Beam size 4</td>
+<td>Moderate</td>
+<td>Good</td>
 </tr>
 <tr>
-<td><strong>Output Formatter</strong></td>
-<td>Structure transcription results</td>
-<td>Timestamps, confidence scores, speaker attribution</td>
+<td>Beam size 8</td>
+<td>Significant</td>
+<td>Better</td>
 </tr>
 <tr>
-<td><strong>File Writer</strong></td>
-<td>Save processed results</td>
-<td>JSON/TXT/attributed output, directory creation</td>
-</tr>
-<tr>
-<td><strong>Config Manager</strong></td>
-<td>Handle YAML configurations</td>
-<td>OmegaConf integration, validation</td>
-</tr>
-<tr>
-<td><strong>Main Pipeline</strong></td>
-<td>Orchestrate processing stages</td>
-<td>Diarization-first workflow, error handling, logging</td>
+<td>Beam size 16</td>
+<td>Major</td>
+<td>Best</td>
 </tr>
 </tbody>
 </table>
-<h2 id="project-structure">📁 Project Structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>audio_aigented/
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── src/
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│   └── audio_aigented/
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│       ├── __init__.py
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│       ├── audio/
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│       │   ├── __init__.py
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│       │   └── loader.py          # Audio file loading &amp; preprocessing
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│       ├── transcription/
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│       │   ├── __init__.py
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│       │   └── asr.py             # NVIDIA NeMo ASR integration
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│       ├── formatting/
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│       │   ├── __init__.py
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│       │   └── formatter.py       # Output structuring
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│       ├── output/
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>│       │   ├── __init__.py
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>│       │   └── writer.py          # File writing (JSON/TXT)
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>│       ├── config/
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>│       │   ├── __init__.py
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>│       │   └── manager.py         # Configuration management
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>│       ├── models/
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>│       │   ├── __init__.py
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>│       │   └── schemas.py         # Pydantic data models
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>│       └── pipeline.py            # Main pipeline orchestration
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>├── tests/
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>│   ├── __init__.py
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>│   ├── test_audio/
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>│   ├── test_transcription/
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>│   ├── test_formatting/
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>│   ├── test_output/
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>│   └── test_pipeline.py
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>├── config/
-</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>│   └── default.yaml               # Default configuration
-</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>├── examples/
-</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>│   ├── sample_audio/
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>│   └── basic_usage.py
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>├── inputs/                        # Default input directory for .wav files
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>├── outputs/                       # Default output directory structure
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>│   └── [audio_filename]/          # Per-file output directories
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>│       ├── transcript.json        # Structured transcription data
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>│       └── transcript.txt         # Human-readable transcript
-</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>├── cache/                         # ASR model and processing cache
-</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>├── main.py                        # CLI entry point
-</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>├── pyproject.toml                 # Dependencies &amp; project config
-</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>└── README.md                      # Documentation
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="vocabulary-not-applied">Vocabulary Not Applied<a class="headerlink" href="#vocabulary-not-applied" title="Permanent link">&para;</a></h3>
+<p>Check that:
+1. Vocabulary file path is correct
+2. File format matches examples
+3. Terms are spelled correctly</p>
+<h3 id="over-correction">Over-Correction<a class="headerlink" href="#over-correction" title="Permanent link">&para;</a></h3>
+<p>If the system over-corrects:
+1. Make corrections more specific
+2. Use word boundaries in patterns
+3. Test with sample audio</p>
+<h3 id="performance-issues">Performance Issues<a class="headerlink" href="#performance-issues" title="Permanent link">&para;</a></h3>
+<p>If transcription is too slow:
+1. Reduce beam size
+2. Limit vocabulary size
+3. Use GPU acceleration</p>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h3 id="command-line">Command Line<a class="headerlink" href="#command-line" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Basic usage with vocabulary</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>python<span class="w"> </span>main.py<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span>--input-dir<span class="w"> </span>./recordings<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span>--vocabulary-file<span class="w"> </span>./tech_vocab.txt
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="c1"># High accuracy mode</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>python<span class="w"> </span>main.py<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">    </span>--input-dir<span class="w"> </span>./recordings<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">    </span>--vocabulary-file<span class="w"> </span>./tech_vocab.txt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">    </span>--beam-size<span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">    </span>--device<span class="w"> </span>cuda
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="c1"># Fast mode with corrections</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>python<span class="w"> </span>main.py<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="w">    </span>--input-dir<span class="w"> </span>./recordings<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="w">    </span>--vocabulary-file<span class="w"> </span>./minimal_vocab.txt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="w">    </span>--beam-size<span class="w"> </span><span class="m">2</span>
 </span></code></pre></div>
-<h2 id="directory-management-strategy">📂 Directory Management Strategy<a class="headerlink" href="#directory-management-strategy" title="Permanent link">&para;</a></h2>
-<h3 id="input-directory-structure">Input Directory Structure<a class="headerlink" href="#input-directory-structure" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Default Location</strong>: <code>./inputs/</code></li>
-<li><strong>File Pattern</strong>: <code>*.wav</code> files in the input directory</li>
-<li><strong>Validation</strong>: Check file existence, format, and audio properties</li>
-<li><strong>Scanning</strong>: Recursive scanning with configurable depth</li>
-</ul>
-<h3 id="output-directory-structure">Output Directory Structure<a class="headerlink" href="#output-directory-structure" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Default Location</strong>: <code>./outputs/</code></li>
-<li><strong>Per-File Directories</strong>: Each audio file gets its own subdirectory</li>
-<li><strong>Naming Convention</strong>: <code>[audio_filename_without_extension]/</code></li>
-<li><strong>Contents</strong>:</li>
-<li><code>transcript.json</code> - Structured transcription with timestamps, confidence scores</li>
-<li><code>transcript.txt</code> - Human-readable transcript format</li>
-</ul>
-<h3 id="example-directory-layout">Example Directory Layout<a class="headerlink" href="#example-directory-layout" title="Permanent link">&para;</a></h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>inputs/
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>├── meeting_recording.wav
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>├── interview_audio.wav
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>└── conference_call.wav
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>outputs/
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>├── meeting_recording/
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>│   ├── transcript.json
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>│   └── transcript.txt
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>├── interview_audio/
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>│   ├── transcript.json
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>│   └── transcript.txt
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>└── conference_call/
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    ├── transcript.json
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    └── transcript.txt
+<h3 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span>-v<span class="w"> </span>/path/to/audio:/data/inputs:ro<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span>-v<span class="w"> </span>/path/to/vocab.txt:/data/vocab.txt:ro<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span>audio-transcription<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span>--vocabulary-file<span class="w"> </span>/data/vocab.txt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span>--beam-size<span class="w"> </span><span class="m">8</span>
 </span></code></pre></div>
-<h2 id="implementation-steps">🔧 Implementation Steps<a class="headerlink" href="#implementation-steps" title="Permanent link">&para;</a></h2>
-<h3 id="phase-1-project-foundation">Phase 1: Project Foundation<a class="headerlink" href="#phase-1-project-foundation" title="Permanent link">&para;</a></h3>
-<ol>
-<li><strong>Dependencies Setup</strong> - Add NVIDIA NeMo, PyTorch, librosa, pydantic, omegaconf</li>
-<li><strong>Directory Structure Creation</strong> - Create <code>inputs/</code>, <code>outputs/</code>, <code>cache/</code>, <code>src/</code>, <code>tests/</code>, <code>config/</code>, <code>examples/</code> directories</li>
-<li><strong>Data Models</strong> - Create Pydantic schemas for transcription results</li>
-<li><strong>Configuration System</strong> - YAML-based config with OmegaConf</li>
-<li><strong>Basic Project Structure</strong> - Create module directories and <code>__init__.py</code> files</li>
-</ol>
-<h3 id="phase-2-core-components">Phase 2: Core Components<a class="headerlink" href="#phase-2-core-components" title="Permanent link">&para;</a></h3>
-<ol>
-<li><strong>Audio Loader</strong> - <code>.wav</code> file loading, validation, resampling for NeMo compatibility</li>
-<li><strong>Speaker Diarizer</strong> - NVIDIA NeMo clustering diarization, RTTM output parsing</li>
-<li><strong>ASR Transcriber</strong> - NVIDIA NeMo integration with per-speaker segment processing</li>
-<li><strong>Output Formatter</strong> - Structure results with timestamps, confidence scores, and speaker IDs</li>
-<li><strong>File Writer</strong> - Save JSON/TXT/attributed outputs with proper directory structure</li>
-</ol>
-<h3 id="phase-3-pipeline-integration">Phase 3: Pipeline Integration<a class="headerlink" href="#phase-3-pipeline-integration" title="Permanent link">&para;</a></h3>
-<ol>
-<li><strong>Main Pipeline</strong> - Orchestrate diarization-first workflow with conditional processing</li>
-<li><strong>CLI Interface</strong> - Command-line interface through <code>main.py</code> with diarization toggle</li>
-<li><strong>Caching System</strong> - Cache both diarization and ASR results to avoid re-processing</li>
-<li><strong>Logging &amp; Monitoring</strong> - Comprehensive logging for debugging</li>
-</ol>
-<h3 id="phase-4-testing-documentation">Phase 4: Testing &amp; Documentation<a class="headerlink" href="#phase-4-testing-documentation" title="Permanent link">&para;</a></h3>
-<ol>
-<li><strong>Unit Tests</strong> - Pytest tests for each component (minimum 3 tests per module)</li>
-<li><strong>Integration Tests</strong> - End-to-end pipeline testing</li>
-<li><strong>Documentation</strong> - Update README with usage examples</li>
-<li><strong>Example Scripts</strong> - Demonstration scripts with sample audio</li>
-</ol>
-<h2 id="key-technical-details">⚙️ Key Technical Details<a class="headerlink" href="#key-technical-details" title="Permanent link">&para;</a></h2>
-<h3 id="diarization-first-workflow">Diarization-First Workflow<a class="headerlink" href="#diarization-first-workflow" title="Permanent link">&para;</a></h3>
-<p>When diarization is enabled:
-1. <strong>Speaker Diarization</strong>: Process entire audio file to identify speaker segments
-2. <strong>Segment Extraction</strong>: Extract audio segments for each speaker change
-3. <strong>Per-Speaker Transcription</strong>: Transcribe each segment individually
-4. <strong>Result Merging</strong>: Combine transcriptions with speaker attribution</p>
-<p>When diarization is disabled:
-1. <strong>Single Speaker Assignment</strong>: Assume entire audio is from one speaker (SPEAKER_00)
-2. <strong>Full Audio Transcription</strong>: Process entire file in chunks
-3. <strong>Consistent Output Format</strong>: Maintain same output structure for compatibility</p>
-<h3 id="nvidia-nemo-integration">NVIDIA NeMo Integration<a class="headerlink" href="#nvidia-nemo-integration" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Use pre-trained conformer models (e.g., <code>stt_en_conformer_ctc_large</code>)</li>
-<li>Use clustering diarizer with TitanNet embeddings for speaker identification</li>
-<li>GPU acceleration with CUDA 12.8</li>
-<li>Batch processing for efficiency</li>
-<li>Automatic model caching</li>
-</ul>
-<h3 id="configuration-schema">Configuration Schema<a class="headerlink" href="#configuration-schema" title="Permanent link">&para;</a></h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">audio</span><span class="p">:</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">sample_rate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">16000</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nt">transcription</span><span class="p">:</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="nt">model_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;stt_en_conformer_ctc_large&quot;</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="nt">device</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;cuda&quot;</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="nt">enable_confidence_scores</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="nt">diarization</span><span class="p">:</span>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">  </span><span class="nt">min_speakers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">  </span><span class="nt">max_speakers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">  </span><span class="nt">config_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./config/diarization_config.yaml&quot;</span>
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="nt">output</span><span class="p">:</span>
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">  </span><span class="nt">formats</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;json&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;txt&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;attributed_txt&quot;</span><span class="p p-Indicator">]</span>
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">  </span><span class="nt">include_timestamps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">  </span><span class="nt">output_dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./outputs&quot;</span>
-</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>
-</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="nt">processing</span><span class="p">:</span>
-</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">  </span><span class="nt">enable_caching</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">  </span><span class="nt">cache_dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./cache&quot;</span>
-</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">  </span><span class="nt">enable_diarization</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</span></code></pre></div>
-<h3 id="data-models">Data Models<a class="headerlink" href="#data-models" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>TranscriptionResult</code> - Complete transcription with metadata</li>
-<li><code>AudioSegment</code> - Individual audio segments with timestamps</li>
-<li><code>ProcessingConfig</code> - Configuration validation schema</li>
-</ul>
-<h2 id="success-criteria">🎯 Success Criteria<a class="headerlink" href="#success-criteria" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Successfully transcribe <code>.wav</code> files using NVIDIA NeMo</li>
-<li>Generate structured JSON and readable TXT outputs</li>
-<li>GPU-optimized processing with caching</li>
-<li>Comprehensive test coverage (&gt;90%)</li>
-<li>Clear documentation and usage examples</li>
-<li>Modular, maintainable codebase (&lt;500 lines per file)</li>
-</ul>
-<h2 id="next-steps">🚀 Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
-<p>Ready to switch to <strong>Code Mode</strong> for implementation starting with Phase 1: Project Foundation.</p>
 
 
 
@@ -2493,10 +2523,10 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.indexes", "toc.follow", "toc.integrate", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.indexes", "toc.follow", "toc.integrate", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
       
     
   </body>
