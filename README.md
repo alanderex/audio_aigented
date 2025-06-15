@@ -16,16 +16,16 @@ A modular, GPU-accelerated audio processing pipeline that automates the transcri
 
 ## 🏗️ Architecture
 
-The pipeline consists of 5 processing stages:
+The pipeline follows a diarization-first approach with 5 processing stages:
 
 ```
 ┌─────────────┐    ┌──────────────┐    ┌─────────────┐    ┌─────────────┐    ┌──────────────┐    ┌─────────────┐
-│ load_audio  │ -> │ transcribe   │ -> │ diarize     │ -> │ format      │ -> │ write_output │ -> │ Results     │
+│ load_audio  │ -> │ diarize      │ -> │ transcribe  │ -> │ format      │ -> │ write_output │ -> │ Results     │
 │             │    │              │    │             │    │             │    │              │    │             │
-│ • Load .wav │    │ • NVIDIA     │    │ • Speaker   │    │ • Structure │    │ • JSON files │    │ • Per-file  │
-│ • Validate  │    │   NeMo ASR   │    │   detection │    │ • Timestamps│    │ • TXT files  │    │   outputs   │
-│ • Resample  │    │ • GPU accel  │    │ • Segments  │    │ • Confidence│    │ • Attributed │    │ • Summaries │
-│             │    │ • Segments   │    │ • Clustering│    │ • Speakers  │    │   TXT files  │    │             │
+│ • Load .wav │    │ • Speaker    │    │ • NVIDIA    │    │ • Structure │    │ • JSON files │    │ • Per-file  │
+│ • Validate  │    │   detection  │    │   NeMo ASR  │    │ • Timestamps│    │ • TXT files  │    │   outputs   │
+│ • Resample  │    │ • Segments   │    │ • GPU accel │    │ • Confidence│    │ • Attributed │    │ • Summaries │
+│             │    │ • Clustering │    │ • Per-speaker│    │ • Speakers  │    │   TXT files  │    │             │
 └─────────────┘    └──────────────┘    └─────────────┘    └─────────────┘    └──────────────┘    └─────────────┘
 ```
 ## 📄 Output Formats
