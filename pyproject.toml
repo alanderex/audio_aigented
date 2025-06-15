@@ -7,6 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     # Core ML/Audio Processing
     "nemo-toolkit[asr]>=1.20.0",
+    "nemo-toolkit[speaker_tasks]>=1.20.0",  # For speaker diarization
     "torch>=2.0.0",
     "torchaudio>=2.0.0",
     "librosa>=0.10.0",
@@ -34,8 +35,7 @@ dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
     "ruff>=0.1.0",
-    "mypy>=1.0.0",
-    "nemo_toolkit[speaker_tasks]>=1.20.0"
+    "mypy>=1.0.0"
 ]
 
 [project.scripts]

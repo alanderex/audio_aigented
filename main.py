@@ -139,7 +139,7 @@ def cli(
         click.echo(f"📁 Found {len(audio_files)} audio files to process")
         
         # Show files that would be processed
-        if dry_run or click.confirm(f"Process {len(audio_files)} files?"):
+        if dry_run or click.confirm(f"Process {len(audio_files)} files?", default=True):
             if dry_run:
                 click.echo("\n🔍 Files that would be processed:")
                 for i, file_path in enumerate(audio_files, 1):

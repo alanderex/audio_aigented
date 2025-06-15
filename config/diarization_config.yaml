@@ -1,13 +1,15 @@
 # NVIDIA NeMo Speaker Diarization Configuration
 # Configuration for ClusteringDiarizer model
 
-# Device configuration for model execution
-device: "cuda"
+# Model name
+name: "ClusterDiarizer"
 
 # Audio processing parameters
 sample_rate: 16000
-num_workers: 4
-batch_size: 1
+num_workers: 1
+batch_size: 64
+device: null  # will be set at runtime
+verbose: true  # Enable verbose output for debugging
 
 diarizer:
   # Oracle VAD flag - required by NeMo ClusteringDiarizer
@@ -16,20 +18,41 @@ diarizer:
   # Manifest file path - will be set at runtime
   manifest_filepath: null
   
+  # Output directory - will be set at runtime
+  out_dir: null
+  
+  # Collar value for scoring (tolerance for speaker boundaries)
+  collar: 0.25
+  
+  # Consider or ignore overlap segments while scoring
+  ignore_overlap: true
+  
   # Speaker embedding model configuration
   speaker_embeddings:
     model_path: "titanet_large"
     parameters:
-      window_length_in_sec: 1.5
-      shift_length_in_sec: 0.75
-      multiscale_weights: [1.0, 0.5, 0.25]
+      window_length_in_sec: 1.5  # Single window size (proven to work)
+      shift_length_in_sec: 0.75  # Single shift length
+      multiscale_weights: [1.0, 0.5, 0.25]  # Standard weights
+      save_embeddings: false
       
   # Voice Activity Detection model configuration
   vad:
     model_path: "vad_multilingual_marblenet"
+    external_vad_manifest: null  # This option is provided to use external vad
+    
     parameters:
-      window_length_in_sec: 0.15
-      shift_length_in_sec: 0.01
+      window_length_in_sec: 0.15  # Window length in sec for VAD context input
+      shift_length_in_sec: 0.01   # Shift length in sec for VAD context input
+      smoothing: "median"         # Smoothing method for VAD post-processing - "median" or false
+      overlap: 0.5               # Overlap for overlapping VAD
+      onset: 0.4                 # Onset threshold for VAD
+      offset: 0.7                # Offset threshold for VAD  
+      pad_onset: 0.05            # Pad onset for VAD
+      pad_offset: -0.1           # Pad offset for VAD
+      min_duration_on: 0.1       # Min duration for VAD use
+      min_duration_off: 0.15     # Min duration for VAD use
+      filter_speech_first: true
       
   # Clustering parameters
   clustering:
@@ -43,6 +66,3 @@ diarizer:
   # Post-processing parameters
   postprocessing:
     overlap_infer_spk_limit: 5
-    
-  # Output directory (will be set at runtime)
-  out_dir: null

@@ -198,15 +198,27 @@ class TranscriptionPipeline:
                     speaker_segments = self.diarizer.diarize(audio_file)
                     
                     if speaker_segments:
+                        # Log detailed speaker segment information
+                        unique_speakers = set(speaker for _, _, speaker in speaker_segments)
+                        logger.info(f"Diarization found {len(speaker_segments)} segments with {len(unique_speakers)} unique speakers: {unique_speakers}")
+                        
+                        # Log first few speaker segments for debugging
+                        for i, (start, end, speaker) in enumerate(speaker_segments[:5]):
+                            logger.debug(f"Speaker segment {i}: {speaker} [{start:.2f}s - {end:.2f}s]")
+                        
                         # Assign speaker IDs to transcription segments
                         self._assign_speakers_to_segments(result.segments, speaker_segments)
+                        
+                        # Count how many segments got speaker assignments
+                        segments_with_speakers = sum(1 for seg in result.segments if seg.speaker_id is not None)
+                        logger.info(f"Assigned speakers to {segments_with_speakers}/{len(result.segments)} transcription segments")
                         
                         # Add speaker information to metadata
                         result.metadata["speaker_segments"] = [
                             {"start": start, "end": end, "speaker": speaker}
                             for start, end, speaker in speaker_segments
                         ]
-                        result.metadata["num_speakers"] = len(set(speaker for _, _, speaker in speaker_segments))
+                        result.metadata["num_speakers"] = len(unique_speakers)
                         
                         logger.info(f"Diarization completed for {file_path.name}: "
                                   f"identified {result.metadata['num_speakers']} speakers")
