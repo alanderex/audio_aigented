@@ -5,26 +5,68 @@ build/
 dist/
 wheels/
 *.egg-info
+*.egg
 
 # Virtual environments
-.venv
+.venv/
+venv/
+env/
+ENV/
 
-# Test output directories
+# IDE and tool configurations
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Test and coverage
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 test_*_output/
 test_output/
 test_*_debug/
 
 # Cache and temporary directories
 cache/
+*.cache
+.cache/
+
+# Model files (large binaries)
+models/
+*.nemo
+*.ckpt
+*.pth
+*.pt
+*.onnx
+
+# Input/Output directories
+inputs/
+outputs/
 custom_input/
 custom_inputs/
 custom_outputs/
 function_test/
 partial/
 
-.mypy_cache/
-.pytest_cache/
-.coverage
-.ruff_cache/
-inputs/
-outputs/
+# Logs
+*.log
+logs/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
