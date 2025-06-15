@@ -32,13 +32,13 @@ echo ""
 # Create output directory if it doesn't exist
 mkdir -p "$OUTPUT_DIR"
 
-# Run transcription with auto-confirm
+# Run transcription
 echo "🚀 Starting transcription..."
 echo "   (This may take several minutes for long audio files)"
 echo ""
 
-# Run docker compose with Y auto-response for confirmation prompt
-echo "Y" | docker compose run --rm \
+# Run docker compose
+docker compose run --rm \
     -v "$INPUT_DIR:/data/inputs:ro" \
     -v "$OUTPUT_DIR:/data/outputs:rw" \
     audio-transcription \

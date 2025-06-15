@@ -138,34 +138,29 @@ def cli(
             
         click.echo(f"📁 Found {len(audio_files)} audio files to process")
         
-        # Show files that would be processed
-        if dry_run or click.confirm(f"Process {len(audio_files)} files?", default=True):
-            if dry_run:
-                click.echo("\n🔍 Files that would be processed:")
-                for i, file_path in enumerate(audio_files, 1):
-                    click.echo(f"  {i:2d}. {file_path.name}")
-                click.echo(f"\n✅ Dry run complete. {len(audio_files)} files would be processed.")
-                return
-                
-            # Process files
-            click.echo("\n🚀 Starting transcription...")
-            results = pipeline.process_files(audio_files)
+        # Handle dry run
+        if dry_run:
+            click.echo("\n🔍 Files that would be processed:")
+            for i, file_path in enumerate(audio_files, 1):
+                click.echo(f"  {i:2d}. {file_path.name}")
+            click.echo(f"\n✅ Dry run complete. {len(audio_files)} files would be processed.")
+            return
             
-            # Show results
-            successful = sum(1 for r in results if r.full_text.strip())
-            failed = len(results) - successful
-            
-            click.echo(f"\n✅ Processing complete!")
-            click.echo(f"   Successful: {successful}")
-            click.echo(f"   Failed: {failed}")
-            click.echo(f"   Output directory: {pipeline_config.output_dir}")
-            
-            if failed > 0:
-                sys.exit(1)
-                
-        else:
-            click.echo("❌ Processing cancelled")
-            sys.exit(0)
+        # Process files
+        click.echo("\n🚀 Starting transcription...")
+        results = pipeline.process_files(audio_files)
+        
+        # Show results
+        successful = sum(1 for r in results if r.full_text.strip())
+        failed = len(results) - successful
+        
+        click.echo(f"\n✅ Processing complete!")
+        click.echo(f"   Successful: {successful}")
+        click.echo(f"   Failed: {failed}")
+        click.echo(f"   Output directory: {pipeline_config.output_dir}")
+        
+        if failed > 0:
+            sys.exit(1)
             
     except Exception as e:
         logger.error(f"Pipeline failed: {e}")

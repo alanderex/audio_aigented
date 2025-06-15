@@ -6,8 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     # Core ML/Audio Processing
-    "nemo-toolkit[asr]>=1.20.0",
-    "nemo-toolkit[speaker_tasks]>=1.20.0",  # For speaker diarization
+    "nemo-toolkit[asr]>=1.20.0",  # For ASR and speaker diarization
     "torch>=2.0.0",
     "torchaudio>=2.0.0",
     "librosa>=0.10.0",

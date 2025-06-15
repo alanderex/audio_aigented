@@ -49,17 +49,16 @@ Run the test script to verify everything is configured correctly:
 Place your `.wav` files in the `inputs/` directory, then run:
 
 ```bash
-# Using the helper script (recommended)
-./scripts/run-transcription.sh
-
-# Or manually with docker-compose
-echo "Y" | docker-compose run --rm audio-transcription
+# Process with default settings
+docker-compose run --rm audio-transcription
 
 # Process specific files with custom output
 docker-compose run --rm \
   -v /path/to/audio:/data/inputs:ro \
   -v /path/to/results:/data/outputs \
-  audio-transcription
+  audio-transcription \
+  --input-dir /data/inputs \
+  --output-dir /data/outputs
 ```
 
 ### 4. Development Mode
