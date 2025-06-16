@@ -377,6 +377,7 @@ Example extracted context:
   "phrases": ["vector database", "machine learning pipeline"],
   "topic": "AI Strategy Meeting - Q4 2024"
 }
+```
 
 ## ⚙️ Configuration Options
 

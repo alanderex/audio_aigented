@@ -1,315 +1,156 @@
-# Improving Transcription Accuracy
+# Improving Accuracy
 
-This guide covers various techniques to improve transcription accuracy, especially for technical content and domain-specific terminology.
+Quick guide to better transcriptions.
 
-## Overview
+## Methods Overview
 
-The audio transcription pipeline provides several methods to improve accuracy:
-
-1. **Custom Vocabulary** - Define domain-specific terms and corrections
-2. **Contextual Biasing** - Boost recognition of important terms
-3. **Advanced Decoding** - Use beam search and language models
-4. **Post-Processing** - Apply corrections after transcription
+1. **Vocabulary Files** - Define custom terms
+2. **Context Files** - Per-audio customization  
+3. **Raw Content** - Extract from documents
+4. **Beam Search** - Better decoding
+5. **Model Selection** - Choose appropriate model
 
 ## Custom Vocabulary
 
-### Creating a Vocabulary File
+### Quick Start
 
-Create a text file with your custom vocabulary using this format:
+```bash
+# Create vocab.txt with your terms
+echo "PyTorch
+TensorFlow  
+kubernetes -> Kubernetes
+ML:Machine Learning" > vocab.txt
+
+# Use it
+python main.py -i ./inputs --vocabulary-file vocab.txt
+```
+
+### Format
 
 ```text
-# Corrections (case-insensitive)
-ai -> AI
-ml -> ML
+# Corrections
 java script -> JavaScript
 
-# Acronym Expansions
-API:Application Programming Interface
-SDK:Software Development Kit
-NLP:Natural Language Processing
+# Acronyms
+API:Application Programming Interface  
 
-# Contextual Phrases (preserved exactly)
-"machine learning"
-"continuous integration"
-"neural network"
+# Phrases
+"machine learning pipeline"
 
-# Technical Terms (for boosting)
-PyTorch
-TensorFlow
-Kubernetes
+# Terms to boost
+microservices
 ```
 
-### Using Custom Vocabulary
+## Context Files
+
+### Per-Audio Context
+
+Create `audio.wav.context.json`:
+
+```json
+{
+  "vocabulary": ["domain", "specific", "terms"],
+  "corrections": {"mistranscribed": "correct"},
+  "speakers": {"SPEAKER_00": "Alice"},
+  "acronyms": {"ROI": "Return on Investment"}
+}
+```
+
+### Raw Content Extraction
 
 ```bash
-# Use with command line
-python main.py --vocabulary-file config/tech_vocabulary.txt
+# From single file
+python main.py -i ./inputs --content-file meeting_agenda.html
 
-# Combine with other options
-python main.py \
-    --vocabulary-file config/tech_vocabulary.txt \
-    --beam-size 8 \
-    --input-dir ./technical_talks
+# From directory  
+python main.py -i ./inputs --content-dir ./docs
+
+# Companion files (auto-detected)
+meeting.wav.content.txt
+presentation.wav.content.html
 ```
 
-## Advanced Decoding Options
+## Beam Search
 
-### Beam Search
-
-Beam search explores multiple hypotheses during decoding:
+| Beam Size | Speed | Accuracy | Use Case |
+|-----------|-------|----------|----------|
+| 1 | Fast | Good | Real-time, drafts |
+| 4-8 | Medium | Better | Default, balanced |
+| 16+ | Slow | Best | Final transcripts |
 
 ```bash
-# Default (greedy decoding)
-python main.py --beam-size 1
-
-# Better accuracy (slower)
-python main.py --beam-size 8
-
-# Maximum accuracy (much slower)
-python main.py --beam-size 16
+python main.py -i ./inputs --beam-size 16
 ```
 
-### Configuration File Options
+## Model Selection
 
-Add these to your `config.yaml`:
+| Model | Best For |
+|-------|----------|
+| `nvidia/parakeet-tdt-0.6b-v2` | Speed, general content |
+| `stt_en_conformer_ctc_small` | Quick processing |
+| `stt_en_conformer_ctc_large` | Maximum accuracy |
 
-```yaml
-transcription:
-  # Enhanced options
-  vocabulary_file: "config/tech_vocabulary.txt"
-  beam_size: 8
-  lm_weight: 0.5              # Language model weight (0.0-2.0)
-  word_insertion_penalty: 0.0  # Penalty for extra words
-  blank_penalty: 0.0          # CTC blank penalty
-```
+## Domain Templates
 
-## Domain-Specific Vocabularies
-
-### Software Development
+<details>
+<summary>Software Development</summary>
 
 ```text
-# Common corrections
+# Common terms
+GitHub
+JavaScript
+TypeScript
+Kubernetes
+microservices
+
+# Corrections  
 git hub -> GitHub
 java script -> JavaScript
-type script -> TypeScript
-py torch -> PyTorch
-tensor flow -> TensorFlow
 
 # Acronyms
 API:Application Programming Interface
 CLI:Command Line Interface
-GUI:Graphical User Interface
-SDK:Software Development Kit
-IDE:Integrated Development Environment
-
-# Technical terms
-microservices
-containerization
-orchestration
-serverless
-kubernetes
-docker
 ```
 
-### Machine Learning
+</details>
+
+<details>
+<summary>AI/ML</summary>
 
 ```text
+# Terms
+PyTorch
+TensorFlow
+embeddings
+transformer
+
 # Corrections
-a i -> AI
-m l -> ML
-l l m -> LLM
-g p t -> GPT
+pie torch -> PyTorch
 
 # Acronyms
-NLP:Natural Language Processing
-CNN:Convolutional Neural Network
-RNN:Recurrent Neural Network
-GAN:Generative Adversarial Network
-BERT:Bidirectional Encoder Representations from Transformers
-
-# Phrases
-"neural network"
-"deep learning"
-"machine learning"
-"transfer learning"
-"reinforcement learning"
-"gradient descent"
-"back propagation"
+LLM:Large Language Model
+RAG:Retrieval Augmented Generation
 ```
 
-### Medical/Healthcare
+</details>
 
-```text
-# Medical acronyms
-MRI:Magnetic Resonance Imaging
-CT:Computed Tomography
-ECG:Electrocardiogram
-EEG:Electroencephalogram
-ICU:Intensive Care Unit
+## Tips
 
-# Medical terms
-anesthesia
-cardiovascular
-neurological
-pharmaceutical
-diagnosis
-prognosis
-```
+1. **Start simple** - Add only terms you hear mistranscribed
+2. **Use context** - Meeting agendas, slides, notes
+3. **Test iteratively** - Process small samples first
+4. **Combine methods** - Vocabulary + context + beam search
 
-## Programmatic Usage
-
-### Using Enhanced Transcriber
-
-```python
-from src.audio_aigented.transcription.enhanced_asr import EnhancedASRTranscriber
-from src.audio_aigented.transcription.vocabulary import VocabularyManager
-
-# Create vocabulary manager
-vocab_manager = VocabularyManager()
-
-# Add corrections
-vocab_manager.add_corrections({
-    "python": "Python",
-    "java script": "JavaScript",
-})
-
-# Add technical terms
-vocab_manager.add_terms([
-    "PyTorch", "TensorFlow", "NumPy"
-])
-
-# Create enhanced transcriber
-config = load_config()
-transcriber = EnhancedASRTranscriber(config)
-transcriber.vocab_manager = vocab_manager
-
-# Transcribe with corrections
-result = transcriber.transcribe_audio_file(audio_file, audio_data)
-```
-
-### Extracting Vocabulary from Text
-
-```python
-# Extract technical terms from documentation
-with open("technical_docs.txt", "r") as f:
-    technical_text = f.read()
-
-transcriber.add_vocabulary_from_text(
-    technical_text,
-    extract_technical=True
-)
-```
-
-## Best Practices
-
-### 1. Start with Common Corrections
-
-Begin with the most common misrecognitions in your domain:
-
-```text
-# Common ASR mistakes
-i o s -> iOS
-oh s -> OS
-sequel -> SQL
-no sequel -> NoSQL
-```
-
-### 2. Use Contextual Phrases
-
-For multi-word technical terms:
-
-```text
-"machine learning model"
-"distributed systems"
-"load balancer"
-"message queue"
-```
-
-### 3. Balance Vocabulary Size
-
-- Too few terms: Missing corrections
-- Too many terms: Slower processing
-- Optimal: 100-500 domain-specific terms
-
-### 4. Test and Iterate
-
-1. Transcribe sample audio
-2. Identify common errors
-3. Add corrections to vocabulary
-4. Re-test with updated vocabulary
-
-### 5. Combine Techniques
-
-Best results come from combining:
-- Custom vocabulary
-- Larger beam size
-- Appropriate model selection
-- Post-processing corrections
-
-## Performance Considerations
-
-| Setting | Speed Impact | Accuracy Impact |
-|---------|-------------|-----------------|
-| Vocabulary (< 100 terms) | Minimal | Moderate |
-| Vocabulary (> 500 terms) | Slight | Moderate |
-| Beam size 4 | Moderate | Good |
-| Beam size 8 | Significant | Better |
-| Beam size 16 | Major | Best |
-
-## Troubleshooting
-
-### Vocabulary Not Applied
-
-Check that:
-1. Vocabulary file path is correct
-2. File format matches examples
-3. Terms are spelled correctly
-
-### Over-Correction
-
-If the system over-corrects:
-1. Make corrections more specific
-2. Use word boundaries in patterns
-3. Test with sample audio
-
-### Performance Issues
-
-If transcription is too slow:
-1. Reduce beam size
-2. Limit vocabulary size
-3. Use GPU acceleration
-
-## Examples
-
-### Command Line
+## Quick Wins
 
 ```bash
-# Basic usage with vocabulary
-python main.py \
-    --input-dir ./recordings \
-    --vocabulary-file ./tech_vocab.txt
+# For technical content
+python main.py -i ./inputs \
+  --vocabulary-file tech_terms.txt \
+  --beam-size 8
 
-# High accuracy mode
-python main.py \
-    --input-dir ./recordings \
-    --vocabulary-file ./tech_vocab.txt \
-    --beam-size 12 \
-    --device cuda
-
-# Fast mode with corrections
-python main.py \
-    --input-dir ./recordings \
-    --vocabulary-file ./minimal_vocab.txt \
-    --beam-size 2
-```
-
-### Docker
-
-```bash
-docker compose run --rm \
-    -v /path/to/audio:/data/inputs:ro \
-    -v /path/to/vocab.txt:/data/vocab.txt:ro \
-    audio-transcription \
-    --vocabulary-file /data/vocab.txt \
-    --beam-size 8
+# For meetings with agenda
+python main.py -i ./inputs \
+  --content-file agenda.html \
+  --create-context-templates
 ```
