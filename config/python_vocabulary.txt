@@ -1,0 +1,564 @@
+# Custom Vocabulary File
+# Format: term -> replacement, ACRONYM:expansion, or "phrase"
+# Lines starting with # are comments
+
+# Common ASR Corrections (case-insensitive)
+ai -> AI
+ml -> ML
+llm -> LLM
+gpt -> GPT
+api -> API
+gpu -> GPU
+cpu -> CPU
+ram -> RAM
+ssd -> SSD
+ui -> UI
+ux -> UXPython
+Python Software Foundation
+PyCon
+EuroPython
+PyData
+PyLadies
+DjangoCon
+SciPy
+NumFOCUS
+JupyterCon
+PSF
+core developer
+maintainer
+contributor
+mentor
+mentee
+reviewer
+pull request
+issue
+bug
+feature
+release
+alpha
+beta
+RC
+stable
+LTS
+sprint
+hackathon
+meetup
+lightning talk
+keynote
+workshop
+tutorial
+open source
+community
+governance
+code of conduct
+inclusive
+diversity
+accessibility
+remote
+hybrid
+volunteer
+moderator
+mailing list
+discourse
+GitHub
+repository
+fork
+clone
+commit
+ci cd -> CI/CD
+dev ops -> DevOps
+git hub -> GitHub
+java script -> JavaScript
+type script -> TypeScript
+py torch -> PyTorch
+tensor flow -> TensorFlow
+date center -> data center
+# conference
+pi data -> PyData
+pie data -> PyData
+pidata -> PyData
+pi con -> PyCon
+pie con -> PyCon
+picon -> PyCon
+
+# Acronym Expansions
+AI:Artificial Intelligence
+API:Application Programming Interface
+ASGI:Asynchronous Server Gateway Interface
+ASR:Automatic Speech Recognition
+BERT:Bidirectional Encoder Representations from Transformers
+CI:Continuous Integration
+CLI:Command Line Interface
+CNN:Convolutional Neural Network
+CPU:Central Processing Unit
+CRUD:Create, Read, Update, Delete
+CSRF:Cross-Site Request Forgery
+CV:Computer Vision
+DAG:Directed Acyclic Graph
+DBMS:Database Management System
+DFS:Depth First Search
+DL:Deep Learning
+DRY:Don't Repeat Yourself
+EDA:Exploratory Data Analysis
+ELT:Extract, Load, Transform
+ETL:Extract, Transform, Load
+FOSS:Free and Open Source Software
+GAN:Generative Adversarial Network
+GIL:Global Interpreter Lock
+GPU:Graphics Processing Unit
+GRU:Gated Recurrent Unit
+GUI:Graphical User Interface
+HTML:HyperText Markup Language
+HTTP:HyperText Transfer Protocol
+IDE:Integrated Development Environment
+IO:Input/Output
+IP:Internet Protocol
+JSON:JavaScript Object Notation
+KNN:K-Nearest Neighbors
+KPI:Key Performance Indicator
+LSTM:Long Short-Term Memory
+ML:Machine Learning
+MLOps:Machine Learning Operations
+MVC:Model View Controller
+NLP:Natural Language Processing
+NPM:Node Package Manager
+OOP:Object-Oriented Programming
+ORM:Object Relational Mapping
+OS:Operating System
+PDF:Portable Document Format
+PEP:Python Enhancement Proposal
+PIL:Python Imaging Library
+PSF:Python Software Foundation
+PWA:Progressive Web App
+QA:Quality Assurance
+RAM:Random Access Memory
+RDBMS:Relational Database Management System
+REST:Representational State Transfer
+RNN:Recurrent Neural Network
+RPC:Remote Procedure Call
+SDK:Software Development Kit
+SQL:Structured Query Language
+SSO:Single Sign-On
+SVG:Scalable Vector Graphics
+TDD:Test Driven Development
+UI:User Interface
+UUID:Universally Unique Identifier
+UX:User Experience
+VPN:Virtual Private Network
+VSCode:Visual Studio Code
+WAF:Web Application Firewall
+WAN:Wide Area Network
+WASM:WebAssembly
+WSGI:Web Server Gateway Interface
+XML:eXtensible Markup Language
+YAML:YAML Ain't Markup Language
+
+# Contextual Phrases (preserved as-is)
+"machine learning"
+"deep learning"
+"neural network"
+"artificial intelligence"
+"natural language processing"
+"computer vision"
+"reinforcement learning"
+"transfer learning"
+"federated learning"
+"edge computing"
+"cloud computing"
+"continuous integration"
+"continuous deployment"
+"infrastructure as code"
+"serverless computing"
+"microservices architecture"
+"distributed systems"
+"high availability"
+"load balancing"
+"data pipeline"
+"feature engineering"
+"model training"
+"hyperparameter tuning"
+"cross validation"
+"gradient descent"
+"back propagation"
+"transformer model"
+"attention mechanism"
+"embedding layer"
+"convolutional neural network"
+"recurrent neural network"
+"long short term memory"
+"generative adversarial network"
+"variational autoencoder"
+
+# Technical Terms (for boosting/recognition)
+kubernetes
+docker
+elasticsearch
+postgresql
+mongodb
+redis
+kafka
+rabbitmq
+nginx
+apache
+jenkins
+gitlab
+terraform
+ansible
+prometheus
+grafana
+pytorch
+tensorflow
+scikit-learn
+pandas
+numpy
+matplotlib
+jupyter
+conda
+virtualenv
+webpack
+nodejs
+reactjs
+angular
+vuejs
+django
+flask
+fastapi
+spring
+hibernate
+maven
+gradle
+intellij
+vscode
+github
+bitbucket
+jira
+confluence
+slack
+zoom
+teams
+ABC
+CPython
+ChainMap
+Counter
+GIL
+IPython
+JIT
+Jupyter
+LRU cache
+MANIFEST.in
+MicroPython
+OOP
+PEP
+PEP8
+Protocol
+PyPy
+Pylint
+Python
+Python Software Foundation
+REPL
+Zen of Python
+__dict__
+__init__
+__main__
+__name__
+__repr__
+__slots__
+__str__
+abc
+absolute import
+abstractmethod
+aiofiles
+aiohttp
+alembic
+argparse
+asgi
+asyncio
+attrs
+autodoc
+await
+base64
+bisect
+black
+build
+bytecode
+caching
+cell
+certifi
+classmethod
+click
+closure
+cloudpickle
+collections
+compile
+compiler
+composition
+comprehension
+concurrent.futures
+context manager
+contextlib
+cookie
+coroutine
+coverage
+cryptography
+csrf
+csv
+dask
+dataclass
+debugger
+decorator
+defaultdict
+deque
+dict comprehension
+dill
+distutils
+django
+docopt
+docstring
+doctest
+dunder method
+encapsulation
+endpoint
+enum
+epoll
+event loop
+expression
+fastapi
+fastapi_websocket
+fcntl
+feather
+fire
+fixture
+flake8
+flask
+form
+functional programming
+functools
+future
+generator
+graphql
+group
+gunicorn
+gzip
+hashlib
+heapq
+http
+httpx
+hypothesis
+imperative programming
+import
+inheritance
+inspect
+interpreter
+ipykernel
+isort
+iterator
+itertools
+jinja
+jinja template
+jinja2
+joblib
+json
+jsonapi
+jsonschema
+jupyterlab
+jwt
+kernel
+kqueue
+lambda
+list comprehension
+logging
+magic command
+magic method
+markdown
+markdown-it
+marshal
+marshmallow
+match
+matplotlib
+memoization
+metaclass
+middleware
+migration
+mkdocs
+mock
+model
+modin
+module
+multiprocessing
+mypy
+namedtuple
+namespace
+nbconvert
+nbformat
+notebook
+numpy
+openapi
+openpyxl
+operator
+orjson
+orm
+os
+package
+pandas
+parquet
+pathlib
+pattern
+pdb
+pdfminer
+pickle
+pip
+plotly
+poll
+polymorphism
+pool
+procedural programming
+process
+property
+psycopg2
+pyMuPDF
+pyPDF2
+pyarrow
+pydantic
+pypi
+pyproject
+pyproject.toml
+pyright
+pytest
+queryset
+queue
+re
+reStructuredText
+readthedocs
+recursion
+regex
+relative import
+reportlab
+request
+requests
+requirements.txt
+response
+rest
+rich
+router
+schedule
+scikit-learn
+scipy
+seaborn
+search
+secrets
+select
+serializer
+session
+set comprehension
+setup.cfg
+setuptools
+shelve
+shutil
+signal
+sklearn
+socket
+sphinx
+sqlalchemy
+sqlite3
+ssl
+starlette
+NumPy
+pandas
+Matplotlib
+Seaborn
+Plotly
+Bokeh
+Altair
+SciPy
+scikit-learn
+XGBoost
+LightGBM
+CatBoost
+TensorFlow
+Keras
+PyTorch
+Hugging Face Transformers
+spaCy
+NLTK
+Gensim
+fastai
+OpenCV
+Dlib
+Pillow
+ImageAI
+PyCaret
+statsmodels
+SymPy
+NetworkX
+pydantic
+dataclasses-json
+marshmallow
+SQLAlchemy
+Tortoise ORM
+Peewee
+Django ORM
+Django
+Flask
+FastAPI
+Starlette
+Tornado
+Sanic
+Quart
+aiohttp
+httpx
+Requests
+BeautifulSoup
+lxml
+Scrapy
+PyPDF2
+pdfplumber
+ReportLab
+Jupyter
+IPython
+nbconvert
+voila
+Panel
+Dash
+Streamlit
+Pytest
+tox
+hypothesis
+unittest-xml-reporting
+coverage
+Sphinx
+mkdocs
+Jinja2
+typer
+Click
+Fire
+Celery
+Dask
+Ray
+joblib
+Numba
+Open3D
+pyglet
+pygame
+pyttsx3
+SpeechRecognition
+pyaudio
+moviepy
+ffmpeg-python
+pymongo
+motor
+redis-py
+kafka-python
+pyodbc
+psycopg2
+asyncpg
+sqlmodel
+WeasyPrint
+PyInstaller
+cx_Freeze
+PyAutoGUI
+pywinauto
+fabric
+invoke
+watchdog
+loguru
+rich
