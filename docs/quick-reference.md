@@ -13,6 +13,45 @@
 | Create context templates | `python main.py -i ./inputs --create-context-templates` |
 | Docker processing | `docker-compose run --rm audio-transcription` |
 
+## CLI Options
+
+### Basic Options
+| Option | Description |
+|--------|-------------|
+| `--input-dir`, `-i` | **[REQUIRED]** Directory containing .wav audio files |
+| `--output-dir`, `-o` | Output directory (default: `./outputs`) |
+| `--config`, `-c` | Configuration YAML file (default: `config/default.yaml`) |
+| `--log-level`, `-l` | Logging level: `DEBUG`, `INFO`, `WARNING`, `ERROR` |
+
+### Model & Processing Options
+| Option | Description |
+|--------|-------------|
+| `--device` | Processing device: `cuda` (recommended) or `cpu` |
+| `--model-name` | Model: `stt_en_conformer_ctc_large` (default), `nvidia/parakeet-tdt-0.6b-v2` (faster) |
+| `--enable-diarization` | Enable speaker identification (default) |
+| `--disable-diarization` | Disable speaker identification for faster processing |
+| `--beam-size` | Beam search width (default: 4, higher = more accurate but slower) |
+
+### Enhancement Options
+| Option | Description |
+|--------|-------------|
+| `--vocabulary-file` | Custom vocabulary file (.txt) for domain-specific terms |
+| `--content-dir` | Directory with companion content (can use multiple times) |
+
+### Output Options
+| Option | Description |
+|--------|-------------|
+| `--formats` | Output formats: `json,txt,attributed` (default: all three) |
+
+### Utility Options
+| Option | Description |
+|--------|-------------|
+| `--dry-run` | Preview files without processing |
+| `--clear-cache` | Clear model cache before processing |
+| `--create-context-templates` | Create editable context files |
+| `--help`, `-h` | Show help message |
+| `--version` | Show version information |
+
 ## Model Selection
 
 | Model | Speed | Accuracy | Use Case |

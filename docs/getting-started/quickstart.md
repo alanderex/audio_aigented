@@ -41,6 +41,60 @@ python main.py -i ./inputs --model-name nvidia/parakeet-tdt-0.6b-v2
 python main.py -i ./inputs --device cpu
 ```
 
+## Command Line Options
+
+### Required Options
+- `--input-dir`, `-i` - Directory containing .wav audio files to process
+
+### Configuration Options
+- `--config`, `-c` - Path to configuration YAML file
+- `--output-dir`, `-o` - Output directory for transcription results
+- `--log-level`, `-l` - Logging level (DEBUG, INFO, WARNING, ERROR). Default: INFO
+
+### Model & Processing Options
+- `--device` - Device for ASR processing (cuda, cpu)
+- `--model-name` - NVIDIA NeMo model name to use for transcription
+- `--enable-diarization` / `--disable-diarization` - Enable/disable speaker diarization. Default: enabled
+- `--beam-size` - Beam search width for decoding (default: 4)
+
+### Enhancement Options
+- `--vocabulary-file` - Path to custom vocabulary file for improved accuracy
+- `--content-dir` - Directory containing companion content files (can be used multiple times)
+
+### Output Options
+- `--formats` - Output formats (comma-separated: json,txt)
+
+### Utility Options
+- `--dry-run` - Show what would be processed without actually processing
+- `--clear-cache` - Clear the cache before processing
+- `--create-context-templates` - Create context template files for each audio file
+- `--version` - Show version information
+
+### Examples
+
+```bash
+# Basic usage
+python main.py --input-dir ./audio
+
+# Full configuration
+python main.py -i ./audio -o ./results -c ./config.yaml --log-level DEBUG
+
+# Fast processing with specific model
+python main.py -i ./audio --model-name nvidia/parakeet-tdt-0.6b-v2 --disable-diarization
+
+# With vocabulary and content directories
+python main.py -i ./audio --vocabulary-file terms.txt --content-dir ./docs --content-dir ./notes
+
+# Dry run to preview files
+python main.py -i ./audio --dry-run
+
+# Clear cache only
+python main.py --clear-cache
+
+# Create context templates
+python main.py -i ./audio --create-context-templates
+```
+
 ## Output Files
 
 ```
@@ -71,5 +125,5 @@ for seg in result.transcription.segments:
 ## Next Steps
 
 - [Configuration Guide](configuration.md) - Customize settings
-- [Improving Accuracy](../guide/improving-accuracy-condensed.md) - Add vocabulary
+- [Improving Accuracy](../guide/improving-accuracy.md) - Add vocabulary
 - [FAQ](../faq.md) - Troubleshooting
