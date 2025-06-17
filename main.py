@@ -5,7 +5,6 @@ This module provides a command-line interface for running the ASR transcription
 system with various options for input directories, configuration, and output formats.
 """
 
-import json
 import logging
 import sys
 from pathlib import Path
@@ -85,15 +84,10 @@ from src.audio_aigented.config.manager import ConfigManager
     help='Create context template files for each audio file'
 )
 @click.option(
-    '--content-file',
-    multiple=True,
-    type=click.Path(exists=True, file_okay=True, dir_okay=False, path_type=Path),
-    help='Raw content file (txt/html/md) to extract context from. Can be used multiple times.'
-)
-@click.option(
     '--content-dir',
+    multiple=True,
     type=click.Path(exists=True, file_okay=False, dir_okay=True, path_type=Path),
-    help='Directory containing content files for context extraction'
+    help='Directory containing companion content files. Can be specified multiple times.'
 )
 @click.version_option(version="0.1.0", prog_name="audio-aigented")
 def cli(
@@ -110,8 +104,7 @@ def cli(
     beam_size: Optional[int],
     clear_cache: bool,
     create_context_templates: bool,
-    content_file: tuple[Path, ...],
-    content_dir: Optional[Path]
+    content_dir: tuple[Path, ...]
 ) -> None:
     """
     Audio Transcription Pipeline using NVIDIA NeMo.
@@ -163,36 +156,13 @@ def cli(
         # Initialize pipeline
         pipeline = TranscriptionPipeline(pipeline_config)
         
-        # Collect content files if provided
-        raw_content_files = list(content_file)  # Convert tuple to list
-        
-        # Add files from content directory if provided
+        # Store content directories in pipeline config for per-file processing
         if content_dir:
-            content_extensions = ['.txt', '.html', '.htm', '.md']
-            for ext in content_extensions:
-                raw_content_files.extend(content_dir.glob(f'*{ext}'))
-            
-        # If content files provided, create a global context
-        if raw_content_files:
-            click.echo(f"\n📄 Analyzing {len(raw_content_files)} content files for context...")
-            global_context = pipeline.context_manager.load_raw_content_files(raw_content_files)
-            
-            # Save the extracted context for review
-            context_output = pipeline_config.output_dir / "extracted_context.json"
-            context_output.parent.mkdir(parents=True, exist_ok=True)
-            with open(context_output, 'w') as f:
-                json.dump(global_context, f, indent=2)
-            
-            click.echo(f"✅ Extracted context saved to: {context_output}")
-            click.echo(f"   - {len(global_context.get('vocabulary', []))} vocabulary terms")
-            click.echo(f"   - {len(global_context.get('acronyms', {}))} acronyms")
-            click.echo(f"   - {len(global_context.get('phrases', []))} key phrases")
-            
-            # Apply global context to enhanced ASR if available
-            if hasattr(pipeline, 'asr_transcriber') and hasattr(pipeline.asr_transcriber, 'vocab_manager'):
-                pipeline.context_manager.create_enhanced_vocabulary(
-                    pipeline.asr_transcriber.vocab_manager, global_context
-                )
+            # Convert tuple to list and store in config
+            pipeline_config.processing["content_directories"] = [str(d) for d in content_dir]
+            click.echo(f"\n📁 Will search for companion content files in {len(content_dir)} directories:")
+            for dir_path in content_dir:
+                click.echo(f"   - {dir_path}")
         
         # Clear cache if requested
         if clear_cache:

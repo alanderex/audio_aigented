@@ -225,13 +225,14 @@ class TranscriptionPipeline:
             if self.config.transcription.get("enable_file_context", True):
                 file_context = self.context_manager.load_context_for_file(file_path)
                 
-                # Also check for companion content files
-                companion_files = []
-                # Check for .content.txt or .content.html files
-                for ext in ['.txt', '.html', '.md']:
-                    companion = file_path.with_suffix(file_path.suffix + '.content' + ext)
-                    if companion.exists():
-                        companion_files.append(companion)
+                # Find companion content files with same base name
+                # Get additional content directories from config if available
+                content_dirs = self.config.processing.get("content_directories", [])
+                additional_dirs = [Path(d) for d in content_dirs] if content_dirs else None
+                
+                companion_files = self.context_manager.find_companion_content_files(
+                    file_path, additional_dirs=additional_dirs
+                )
                         
                 # Enhance context with companion content files
                 if companion_files:

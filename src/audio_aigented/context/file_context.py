@@ -64,6 +64,46 @@ class FileContextManager:
                 return self._load_json_context(dir_context)
                 
         return None
+    
+    def find_companion_content_files(self, audio_file: Path, 
+                                   additional_dirs: Optional[List[Path]] = None) -> List[Path]:
+        """
+        Find content files with the same base name as the audio file.
+        
+        Looks for files with matching base name and extensions in:
+        1. The same directory as the audio file
+        2. Any additional directories specified
+        
+        Args:
+            audio_file: Path to the audio file
+            additional_dirs: Optional list of additional directories to search
+            
+        Returns:
+            List of paths to companion content files
+        """
+        companion_files = []
+        base_name = audio_file.stem  # Get filename without extension
+        
+        # Directories to search - start with audio file's directory
+        search_dirs = [audio_file.parent]
+        
+        # Add any additional directories
+        if additional_dirs:
+            search_dirs.extend(additional_dirs)
+        
+        # Extensions to look for
+        content_extensions = ['.html', '.htm', '.txt', '.json', '.md']
+        
+        # Search each directory
+        for search_dir in search_dirs:
+            for ext in content_extensions:
+                companion_path = search_dir / f"{base_name}{ext}"
+                if companion_path.exists() and companion_path != audio_file:
+                    if companion_path not in companion_files:  # Avoid duplicates
+                        companion_files.append(companion_path)
+                        logger.info(f"Found companion content file: {companion_path}")
+        
+        return companion_files
         
     def _load_json_context(self, context_file: Path) -> Dict[str, Any]:
         """
