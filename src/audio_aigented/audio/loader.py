@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 class AudioLoader:
     """
     Handles loading and preprocessing of audio files for ASR processing.
-    
+
     Provides methods to load, validate, and prepare audio files with proper
     resampling and format conversion for NVIDIA NeMo compatibility.
     """
@@ -29,7 +29,7 @@ class AudioLoader:
     def __init__(self, config: ProcessingConfig) -> None:
         """
         Initialize the AudioLoader.
-        
+
         Args:
             config: Processing configuration containing audio settings
         """
@@ -38,15 +38,19 @@ class AudioLoader:
         # Reduce max duration to 10 seconds for better GPU memory management
         self.max_duration = config.audio.get("max_duration", 10.0)
 
-        logger.info(f"AudioLoader initialized with sample rate: {self.target_sample_rate}")
+        logger.debug(
+            f"AudioLoader initialized with sample rate: {self.target_sample_rate}"
+        )
 
     def discover_audio_files(self, input_dir: Path | None = None) -> list[Path]:
         """
-        Discover all .wav audio files in the input directory.
-        
+        Discover all supported audio files in the input directory.
+
+        Supported formats: .wav, .mp3, .m4a, .flac
+
         Args:
             input_dir: Optional input directory. If None, uses config default.
-            
+
         Returns:
             List of Path objects for discovered audio files
         """
@@ -56,25 +60,57 @@ class AudioLoader:
             logger.warning(f"Input directory does not exist: {search_dir}")
             return []
 
-        # Find all .wav files
-        audio_files = list(search_dir.glob("*.wav"))
+        # Supported audio extensions
+        supported_extensions = [".wav", ".mp3", ".m4a", ".flac"]
+        audio_files = []
+
+        # Find all supported audio files
+        for ext in supported_extensions:
+            audio_files.extend(search_dir.glob(f"*{ext}"))
+            audio_files.extend(
+                search_dir.glob(f"*{ext.upper()}")
+            )  # Also check uppercase
+
+        # Remove duplicates and sort
+        audio_files = sorted(set(audio_files))
 
         if not audio_files:
-            logger.warning(f"No .wav files found in {search_dir}")
+            logger.warning(
+                f"No audio files found in {search_dir} (supported: {', '.join(supported_extensions)})"
+            )
+        else:
+            # Log file format breakdown
+            format_counts = {}
+            for file in audio_files:
+                ext = file.suffix.lower()
+                format_counts[ext] = format_counts.get(ext, 0) + 1
 
-        logger.info(f"Discovered {len(audio_files)} audio files in {search_dir}")
+            logger.info(f"Discovered {len(audio_files)} audio files in {search_dir}")
+            for ext, count in sorted(format_counts.items()):
+                logger.info(f"  - {count} {ext} files")
+
+            # Check if no WAV files found when diarization is enabled
+            if ".wav" not in format_counts and hasattr(self.config, "processing"):
+                if self.config.processing.get("enable_diarization", True):
+                    logger.warning(
+                        "No WAV files found. Diarization will create temporary WAV files from other formats."
+                    )
+                    logger.warning(
+                        "This may increase processing time. Consider converting files to WAV for better performance."
+                    )
+
         return audio_files
 
     def load_audio_file(self, file_path: Path) -> AudioFile:
         """
         Load and validate an audio file.
-        
+
         Args:
             file_path: Path to the audio file
-            
+
         Returns:
             AudioFile instance with metadata
-            
+
         Raises:
             FileNotFoundError: If file doesn't exist
             ValueError: If file format is not supported
@@ -83,36 +119,68 @@ class AudioLoader:
             raise FileNotFoundError(f"Audio file not found: {file_path}")
 
         try:
-            # Get audio info without loading the full file
-            info = sf.info(str(file_path))
+            # Try soundfile first for wav/flac
+            if file_path.suffix.lower() in [".wav", ".flac"]:
+                try:
+                    info = sf.info(str(file_path))
+                    audio_file = AudioFile(
+                        path=file_path,
+                        sample_rate=info.samplerate,
+                        duration=info.duration,
+                        channels=info.channels,
+                        format=info.format.lower(),
+                    )
+                    logger.debug(
+                        f"Loaded audio file info via soundfile: {file_path.name} "
+                        f"({info.duration:.2f}s, {info.samplerate}Hz, {info.channels}ch)"
+                    )
+                    return audio_file
+                except Exception:
+                    # Fall back to librosa
+                    pass
+
+            # Use librosa for all formats (including mp3, m4a)
+            # Load a small portion to get metadata without loading full file
+            y, sr = librosa.load(str(file_path), sr=None, mono=False, duration=0.1)
+
+            # Get full duration
+            duration = librosa.get_duration(path=str(file_path))
+
+            # Determine number of channels
+            channels = 1 if y.ndim == 1 else y.shape[0]
+
+            # Get format from file extension
+            format_type = file_path.suffix.lower().replace(".", "")
 
             audio_file = AudioFile(
                 path=file_path,
-                sample_rate=info.samplerate,
-                duration=info.duration,
-                channels=info.channels,
-                format=info.format.lower()
+                sample_rate=sr,
+                duration=duration,
+                channels=channels,
+                format=format_type,
             )
 
-            logger.debug(f"Loaded audio file info: {file_path.name} "
-                        f"({info.duration:.2f}s, {info.samplerate}Hz, {info.channels}ch)")
+            logger.debug(
+                f"Loaded audio file info via librosa: {file_path.name} "
+                f"({duration:.2f}s, {sr}Hz, {channels}ch, {format_type})"
+            )
 
             return audio_file
 
         except Exception as e:
             logger.error(f"Failed to load audio file {file_path}: {e}")
-            raise ValueError(f"Unsupported audio file format: {file_path}")
+            raise ValueError(f"Unsupported audio file format: {file_path} - {str(e)}")
 
     def load_audio_data(self, audio_file: AudioFile) -> tuple[np.ndarray, int]:
         """
         Load audio data and resample if necessary.
-        
+
         Args:
             audio_file: AudioFile instance
-            
+
         Returns:
             Tuple of (audio_data, sample_rate)
-            
+
         Raises:
             ValueError: If audio loading fails
         """
@@ -121,17 +189,17 @@ class AudioLoader:
             audio_data, original_sr = librosa.load(
                 str(audio_file.path),
                 sr=None,  # Keep original sample rate initially
-                mono=True  # Convert to mono
+                mono=True,  # Convert to mono
             )
 
             # Resample if necessary
             if original_sr != self.target_sample_rate:
-                logger.debug(f"Resampling {audio_file.path.name} from "
-                           f"{original_sr}Hz to {self.target_sample_rate}Hz")
+                logger.debug(
+                    f"Resampling {audio_file.path.name} from "
+                    f"{original_sr}Hz to {self.target_sample_rate}Hz"
+                )
                 audio_data = librosa.resample(
-                    audio_data,
-                    orig_sr=original_sr,
-                    target_sr=self.target_sample_rate
+                    audio_data, orig_sr=original_sr, target_sr=self.target_sample_rate
                 )
 
             # Normalize audio data
@@ -143,14 +211,16 @@ class AudioLoader:
             logger.error(f"Failed to load audio data from {audio_file.path}: {e}")
             raise ValueError(f"Failed to load audio data: {e}")
 
-    def segment_audio(self, audio_data: np.ndarray, sample_rate: int) -> list[np.ndarray]:
+    def segment_audio(
+        self, audio_data: np.ndarray, sample_rate: int
+    ) -> list[np.ndarray]:
         """
         Segment long audio into chunks for processing.
-        
+
         Args:
             audio_data: Audio data array
             sample_rate: Sample rate of the audio
-            
+
         Returns:
             List of audio segments
         """
@@ -187,10 +257,10 @@ class AudioLoader:
     def process_audio_files(self, audio_files: list[Path]) -> list[AudioFile]:
         """
         Process multiple audio files and return AudioFile instances.
-        
+
         Args:
             audio_files: List of audio file paths
-            
+
         Returns:
             List of validated AudioFile instances
         """
@@ -211,10 +281,10 @@ class AudioLoader:
     def _normalize_audio(self, audio_data: np.ndarray) -> np.ndarray:
         """
         Normalize audio data to [-1, 1] range.
-        
+
         Args:
             audio_data: Input audio data
-            
+
         Returns:
             Normalized audio data
         """
@@ -228,10 +298,10 @@ class AudioLoader:
     def validate_audio_file(self, audio_file: AudioFile) -> bool:
         """
         Validate audio file for processing compatibility.
-        
+
         Args:
             audio_file: AudioFile instance to validate
-            
+
         Returns:
             True if file is valid for processing
         """

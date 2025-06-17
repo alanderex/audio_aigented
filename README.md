@@ -15,6 +15,7 @@ A modular, GPU-accelerated audio processing pipeline that automates the transcri
 - **🔄 Modular Architecture** for easy extension and maintenance
 - **🧪 Comprehensive Testing** with pytest suite
 - **💾 Smart Caching** to avoid re-processing files
+- **🎵 Multiple Format Support** for .wav, .mp3, .m4a, and .flac files
 
 ## 🏗️ Architecture
 
@@ -24,7 +25,7 @@ The pipeline follows a diarization-first approach with 5 processing stages:
 ┌─────────────┐    ┌──────────────┐    ┌─────────────-┐    ┌─────────────┐    ┌──────────────┐    ┌─────────────┐
 │ load_audio  │ -> │ diarize      │ -> │ transcribe   │ -> │ format      │ -> │ write_output │ -> │ Results     │
 │             │    │              │    │              │    │             │    │              │    │             │
-│ • Load .wav │    │ • Speaker    │    │ • NVIDIA     │    │ • Structure │    │ • JSON files │    │ • Per-file  │
+│ • Load audio│    │ • Speaker    │    │ • NVIDIA     │    │ • Structure │    │ • JSON files │    │ • Per-file  │
 │ • Validate  │    │   detection  │    │   NeMo ASR   │    │ • Timestamps│    │ • TXT files  │    │   outputs   │
 │ • Resample  │    │ • Segments   │    │ • GPU accel  │    │ • Confidence│    │ • Attributed │    │ • Summaries │
 │             │    │ • Clustering │    │ • Per-speaker│    │ • Speakers  │    │   TXT files  │    │             │
@@ -129,7 +130,7 @@ uv pip install "nemo-toolkit[asr]"
 ### 1. Basic Usage with CLI
 
 ```bash
-# Process all .wav files in ./inputs/ directory
+# Process audio files in ./inputs/ directory (supports .wav, .mp3, .m4a, .flac)
 uv run python main.py --input-dir ./inputs
 
 # Use custom output directory
@@ -169,8 +170,8 @@ pipeline = TranscriptionPipeline()
 # Process all files in input directory
 results = pipeline.process_directory(Path("./inputs"))
 
-# Process a single file
-result = pipeline.process_single_file(Path("./inputs/meeting.wav"))
+# Process a single file (supports .wav, .mp3, .m4a, .flac)
+result = pipeline.process_single_file(Path("./inputs/meeting.mp3"))
 print(f"Transcription: {result.full_text}")
 ```
 

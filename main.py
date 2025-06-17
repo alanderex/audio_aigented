@@ -109,20 +109,48 @@ def cli(
     """
     Audio Transcription Pipeline using NVIDIA NeMo.
     
-    Process .wav audio files through automatic speech recognition (ASR)
+    Process audio files through automatic speech recognition (ASR)
     and generate structured transcription outputs.
+    
+    Supported formats: .wav, .mp3, .m4a, .flac
     
     Examples:
         audio-transcribe -i ./my_audio_files
         audio-transcribe -i ./audio -o ./results -c ./my_config.yaml
         audio-transcribe --input-dir ./podcasts --device cuda --log-level DEBUG
     """
-    # Setup logging
-    logging.basicConfig(
-        level=getattr(logging, log_level.upper()),
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    # Setup logging with centralized configuration
+    from src.audio_aigented.utils.logging_config import configure_logging
+    import tqdm
+    
+    # Configure third-party library logging first
+    configure_logging(log_level)
+    
+    # Create a tqdm-aware logging handler for our application
+    class TqdmLoggingHandler(logging.Handler):
+        def emit(self, record):
+            try:
+                msg = self.format(record)
+                tqdm.tqdm.write(msg)
+                self.flush()
+            except Exception:
+                self.handleError(record)
+    
+    # Configure logging with tqdm handler
+    root_logger = logging.getLogger()
+    root_logger.setLevel(getattr(logging, log_level.upper()))
+    
+    # Remove existing handlers
+    for handler in root_logger.handlers[:]:
+        root_logger.removeHandler(handler)
+    
+    # Add tqdm-aware handler
+    handler = TqdmLoggingHandler()
+    handler.setFormatter(logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S'
-    )
+    ))
+    root_logger.addHandler(handler)
     
     logger = logging.getLogger(__name__)
     
