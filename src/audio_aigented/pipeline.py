@@ -81,8 +81,13 @@ class TranscriptionPipeline:
             try:
                 from .diarization.diarizer import NeMoDiarizer
 
-                self.diarizer = NeMoDiarizer()
-                logger.info("Speaker diarization enabled")
+                # Get num_speakers hint from config if provided
+                num_speakers = self.config.processing.get("num_speakers", None)
+                self.diarizer = NeMoDiarizer(num_speakers=num_speakers)
+                if num_speakers:
+                    logger.info(f"Speaker diarization enabled with {num_speakers} speaker hint")
+                else:
+                    logger.info("Speaker diarization enabled")
             except Exception as e:
                 logger.warning(f"Failed to initialize diarizer: {e}")
                 logger.info("Continuing without speaker diarization")

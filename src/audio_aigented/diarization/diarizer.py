@@ -36,6 +36,7 @@ class NeMoDiarizer:
         collar: float = 0.25,
         merge_segments: bool = True,
         min_segment_duration: float = 0.1,
+        num_speakers: int | None = None,
     ):
         """
         Initialize the NeMo diarizer.
@@ -46,6 +47,7 @@ class NeMoDiarizer:
             collar: Time collar in seconds for segment boundaries
             merge_segments: Whether to merge adjacent segments from same speaker
             min_segment_duration: Minimum segment duration to keep
+            num_speakers: Optional hint for number of speakers in the audio
         """
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         logger.info(f"Initializing NeMo Diarizer on device: {self.device}")
@@ -59,12 +61,15 @@ class NeMoDiarizer:
         self.collar = collar
         self.merge_segments = merge_segments
         self.min_segment_duration = min_segment_duration
+        self.num_speakers = num_speakers
 
         # Initialize helper components
         self.config_builder = DiarizationConfigBuilder(config_path)
         self.rttm_parser = RTTMParser(collar=collar)
 
         logger.debug(f"Diarization config path: {self.config_path}")
+        if self.num_speakers:
+            logger.info(f"Diarizer initialized with {self.num_speakers} speaker hint")
 
     @retry_on_error(max_attempts=3, delay=1.0, exceptions=(RuntimeError, ValueError))
     def diarize(self, audio_file: AudioFile) -> List[Tuple[float, float, str]]:
@@ -175,7 +180,7 @@ class NeMoDiarizer:
         # Create manifest file
         manifest_path = temp_dir / "input_manifest.json"
         manifest_entry = self.config_builder.create_manifest_entry(
-            audio_path, audio_file.duration or 100.0
+            audio_path, audio_file.duration or 100.0, self.num_speakers
         )
 
         with open(manifest_path, "w") as f:
@@ -184,7 +189,7 @@ class NeMoDiarizer:
 
         # Build configuration
         cfg = self.config_builder.build_config(
-            manifest_path, temp_dir, audio_path, audio_file.duration or 100.0
+            manifest_path, temp_dir, audio_path, audio_file.duration or 100.0, self.num_speakers
         )
 
         return manifest_path, cfg

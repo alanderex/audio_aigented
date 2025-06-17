@@ -33,7 +33,7 @@ class DiarizationConfigBuilder:
         self.device = "cuda" if self._cuda_available() else "cpu"
         
     def build_config(self, manifest_path: Path, output_dir: Path, 
-                    audio_file_path: Path, duration: float) -> DictConfig:
+                    audio_file_path: Path, duration: float, num_speakers: int | None = None) -> DictConfig:
         """
         Build a complete diarization configuration.
         
@@ -42,6 +42,7 @@ class DiarizationConfigBuilder:
             output_dir: Directory for diarization outputs
             audio_file_path: Path to the audio file being processed
             duration: Duration of the audio file in seconds
+            num_speakers: Optional hint for number of speakers
             
         Returns:
             Complete OmegaConf configuration for diarization
@@ -58,6 +59,21 @@ class DiarizationConfigBuilder:
         cfg_dict['diarizer']['manifest_filepath'] = str(manifest_path)
         cfg_dict['diarizer']['out_dir'] = str(output_dir)
         
+        # Set number of speakers if provided
+        if num_speakers is not None:
+            # Ensure clustering section exists with proper structure
+            if 'clustering' not in cfg_dict['diarizer']:
+                cfg_dict['diarizer']['clustering'] = {}
+            if 'parameters' not in cfg_dict['diarizer']['clustering']:
+                cfg_dict['diarizer']['clustering']['parameters'] = {}
+            
+            # Set oracle number of speakers
+            cfg_dict['diarizer']['clustering']['parameters']['oracle_num_speakers'] = num_speakers
+            logger.info(f"Setting oracle_num_speakers to {num_speakers}")
+            
+            # Log the full clustering config for debugging
+            logger.debug(f"Clustering config: {cfg_dict['diarizer']['clustering']}")
+        
         # Add device configuration
         cfg_dict = self._add_device_config(cfg_dict)
         
@@ -68,6 +84,12 @@ class DiarizationConfigBuilder:
         cfg = OmegaConf.create(cfg_dict)
         
         logger.debug(f"Built diarization config with keys: {list(cfg.keys())}")
+        
+        # Verify oracle_num_speakers is set if provided
+        if num_speakers is not None:
+            oracle_value = cfg.diarizer.clustering.parameters.oracle_num_speakers
+            logger.info(f"Verified oracle_num_speakers in final config: {oracle_value}")
+        
         return cfg
 
     def _get_default_config(self) -> Dict[str, Any]:
@@ -105,7 +127,8 @@ class DiarizationConfigBuilder:
                 },
                 'clustering': {
                     'parameters': {
-                        'oracle_num_speakers': None,
+                        'oracle_num_speakers': False,  # Must be False or an integer
+                        'max_num_speakers': 8,
                         'enhanced_count_thres': 80,
                         'max_rp_threshold': 0.25,
                         'sparse_search_volume': 30
@@ -199,21 +222,28 @@ class DiarizationConfigBuilder:
         except ImportError:
             return False
 
-    def create_manifest_entry(self, audio_path: Path, duration: float) -> Dict[str, Any]:
+    def create_manifest_entry(self, audio_path: Path, duration: float, num_speakers: int | None = None) -> Dict[str, Any]:
         """
         Create a manifest entry for the audio file.
         
         Args:
             audio_path: Path to audio file
             duration: Duration in seconds
+            num_speakers: Optional number of speakers
             
         Returns:
             Manifest entry dictionary
         """
-        return {
+        manifest = {
             "audio_filepath": str(audio_path),
             "duration": duration if duration else 100.0,  # Default fallback
             "label": "infer",
             "text": "-",
             "offset": 0.0
         }
+        
+        # Add num_speakers if provided
+        if num_speakers is not None:
+            manifest["num_speakers"] = num_speakers
+            
+        return manifest

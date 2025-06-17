@@ -60,6 +60,11 @@ from src.audio_aigented.config.manager import ConfigManager
     help="Enable/disable speaker diarization. Use --disable-diarization for faster processing",
 )
 @click.option(
+    "--num-speakers",
+    type=int,
+    help="Hint for number of speakers in the audio (helps improve diarization accuracy)",
+)
+@click.option(
     "--beam-size",
     type=int,
     help="Beam search width for decoding (default: 4, higher = more accurate but slower)",
@@ -109,6 +114,7 @@ def cli(
     formats: Optional[str],
     dry_run: bool,
     enable_diarization: bool,
+    num_speakers: Optional[int],
     vocabulary_file: Optional[Path],
     beam_size: Optional[int],
     clear_cache: bool,
@@ -182,6 +188,10 @@ Supported formats: .wav, .mp3, .m4a, .flac
         # Update log level and diarization in config
         pipeline_config.processing["log_level"] = log_level
         pipeline_config.processing["enable_diarization"] = enable_diarization
+        
+        # Update diarization options
+        if num_speakers is not None:
+            pipeline_config.processing["num_speakers"] = num_speakers
 
         # Update enhanced transcription options
         if vocabulary_file:
@@ -224,6 +234,8 @@ Supported formats: .wav, .mp3, .m4a, .flac
         click.echo(f"ASR Model: {pipeline_config.transcription['model_name']}")
         click.echo(f"Device: {pipeline_config.transcription['device']}")
         click.echo(f"Output Formats: {', '.join(pipeline_config.output['formats'])}")
+        if enable_diarization and num_speakers:
+            click.echo(f"Speaker Hint: {num_speakers} speakers")
         click.echo("=" * 40)
 
         # Discover files

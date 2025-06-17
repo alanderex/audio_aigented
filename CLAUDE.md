@@ -15,6 +15,7 @@ uv pip install -e ".[dev]"       # Install with dev dependencies
 uv run python main.py --input-dir ./inputs
 uv run python main.py --input-dir ./inputs --output-dir ./outputs --device cuda
 uv run python main.py --input-dir ./inputs --disable-diarization  # Faster processing without speaker diarization
+uv run python main.py --input-dir ./inputs --num-speakers 4  # Hint for 4 speakers (improves diarization)
 uv run python main.py --input-dir ./inputs --model-name nvidia/parakeet-tdt-0.6b-v2  # Use faster Parakeet model
 uv run python main.py --input-dir ./inputs --clear-cache  # Clear cache before processing
 uv run python main.py --clear-cache  # Clear cache only (no processing)
@@ -102,6 +103,7 @@ For each audio file, creates a directory with three output files:
   - `nvidia/parakeet-tdt-0.6b-v2` - Faster transducer model with 600M parameters
   - `stt_en_conformer_ctc_small/medium` - Smaller CTC models for faster processing
 - Speaker diarization can be disabled for faster processing
+- Optional speaker count hint (--num-speakers) improves diarization accuracy for known speaker counts
 - All paths in the codebase should be absolute, not relative
 - Diarization is performed BEFORE transcription for better speaker attribution
 - When testing, use audio files with multiple speakers from `/home/hendorf/code/audio_ai/app/data/input`
